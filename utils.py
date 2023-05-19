@@ -1,5 +1,5 @@
 import pygame
-import pandas as pd
+from score import Mouse_Pos
 
 class Button:
     def __init__(self, screen, text, x_pos, y_pos):
@@ -70,8 +70,7 @@ class Button:
             pygame.draw.rect(self.screen, 'black', button_rect, 1, 5)
             self.screen.blit(button_text, (self.x_pos + 32, self.y_pos + 5))
 
-    def check_click(self): #check if a button was clicked
-        global new_press
+    def check_click(self, new_press, args): #check if a button was clicked
         mouse_pos = pygame.mouse.get_pos() #get (x,y) mouse cursor position relative to top-left screen corner
         left_click = pygame.mouse.get_pressed()[0] #gets boolean of left mouse button being clicked
 
@@ -82,39 +81,12 @@ class Button:
         else: #Next button
             button_rect = pygame.rect.Rect((self.x_pos, self.y_pos), (155, 60)) #rect object the same size as the next button
         
-        if left_click and button_rect.collidepoint(mouse_pos) and new_press:
+        if left_click and button_rect.collidepoint(mouse_pos) and new_press == True:
             #the mouse was clicked over a button and it is a new button press
-            new_press = False #reset to True in loop when mouse button is released
+            Mouse_Pos.write_mouse_pos(args, mouse_pos)
             return True
         else:
             return False
-    
-#creates all text labels for target objects and score
-def labels(args, screen, score):
-    # Font size and type for target object labels
-    font = pygame.font.SysFont(args.font_type, 40)
-    # Label for Object Names
-    people_label = font.render('People', True, 'black')
-    screen.blit(people_label, (996, 80))
-    vehicles_label = font.render('Vehicles', True, 'black')
-    screen.blit(vehicles_label, (983, 200))
-    bags_label = font.render('Bags', True, 'black')
-    screen.blit(bags_label, (1007, 320))
-    barrels_label = font.render('Barrels', True, 'black')
-    screen.blit(barrels_label, (992, 440))
-    antennas_label = font.render('Antennas', True, 'black')
-    screen.blit(antennas_label, (971, 560))
-    
-    # Label for 'Score'
-    font = pygame.font.SysFont(args.font_type, 100)
-    score_label = font.render('Score: ', True, 'dark green')
-    screen.blit(score_label, (40, 40))
-
-    #text for Score value
-    score_text = font.render(str(score), True, 'dark green')
-    screen.blit(score_text, (260, 40))
-
-    return
     
 # Function defines the labels and buttons for the Main Menu screen
 def menu_setup(args, screen, subID_text_input, conditionNo_text_input, subID_rect, conditionNo_rect):
@@ -133,15 +105,15 @@ def menu_setup(args, screen, subID_text_input, conditionNo_text_input, subID_rec
     screen.blit(conditionNo_text, (conditionNo_rect.x + 20, conditionNo_rect.y + 10))
 
     # Label for user input boxes
-    subID_label = args.font_type.render('Subject ID', True, 'black')
+    subID_label = font.render('Subject ID', True, 'black')
     screen.blit(subID_label, (28, 88))
     conditionNo_label = font.render('Condition No', True, 'black')
     screen.blit(conditionNo_label, (390, 88))
 
-    # Training Button
-    training_button = Button('Training', 28, 200)
+    # Training ButtonNone
+    training_button = Button(screen, 'Training', 28, 200)
     
     #Start Button
-    start_button = Button('Start', 28, 400)
+    start_button = Button(screen, 'Start', 28, 400)
 
     return training_button, start_button

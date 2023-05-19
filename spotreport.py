@@ -1,26 +1,81 @@
 import pygame
-import sys
-import os
 from utils import menu_setup
-from read_write import load_images, load_ans_files, input_args
-from display_setup import game_display_setup
+from read import load_images, load_ans_files, input_args
+from utils import Button
+from display_setup import Game_Disp_Setup
+from score import Score, Mouse_Pos
 
 # Training Loop
-def training_loop(training_imgs, training_dict):
-    global new_press
+def training_loop(training_imgs, training_dict, new_press):
     
     img_ID_training = 0 # index of the training image
     score = 0
+
+    people_val, vehicle_val, bags_val, barrels_val, antennas_val = 0, 0, 0, 0, 0 # user counts
+    obj_scores = [people_val, vehicle_val, bags_val, barrels_val, antennas_val]
 
     training_running = True
     mode = 0 # set mode to 0 to calculate score from correct dictionary
 
     while training_running:
-            
-        # Function sets up all the labels and checks if next button is clicked
-        game_display_setup(args, timer, screen, fps, score, img_ID_training, mode, training_dict, imgs = training_imgs)
+        
+        screen.fill('white')
+        timer.tick(fps)
 
-        # check if we want to exit training and if mouse button was released
+        # Sets up the labels for all the add buttons
+        add_button_list = Game_Disp_Setup.add_buttons(args, screen)
+
+        # Buttons only increase counts up to 5
+        for i in range(len(add_button_list)):
+            if add_button_list[i].check_click(new_press, args):
+                new_press = False
+                if obj_scores[i] == 5:
+                    continue
+                else:
+                    obj_scores[i] += 1
+
+        # Sets up the labels for all the subtract buttons
+        sub_button_list = Game_Disp_Setup.subtract_buttons(args, screen)
+
+        # Buttons only decrease counts down to 0
+        for i in range(len(sub_button_list)):
+            if sub_button_list[i].check_click(new_press, args):
+                new_press = False
+                if obj_scores[i] == 0:
+                    continue
+                else:
+                    obj_scores[i] -= 1
+
+        Game_Disp_Setup.count_object_labels(args, screen, obj_scores)
+
+        # Button for Next
+        x_pos = args.label_xpos     # Store the x position for the Next button 
+        y_pos = args.label_start_ypos + 4*args.delta    # Store the y position for the Next button
+        next_button = Button(screen, 'Next', x_pos + 80, y_pos + 100)   # The values 80 & 100 are the deltas for x & y position respectively, change if reuqired
+        
+        # labels for target object types, 'score' and score value
+        Game_Disp_Setup.labels(args, screen, score)
+
+        screen.blit(training_imgs[img_ID_training], (args.img_pos_x, args.img_pos_y)) # Display the current real image
+
+        # When Next button is clicked, update the score and show next image
+        if next_button.check_click(new_press, args):
+            new_press = False
+            new_points = Score.calculate_score(args, img_ID_training, obj_scores, mode, score, training_dict)
+            score += new_points
+
+            img_ID_training += 1 # incrememnt the img_ID
+            people_val, vehicle_val, bags_val, barrels_val, antennas_val = 0, 0, 0, 0, 0
+            obj_scores = [people_val, vehicle_val, bags_val, barrels_val, antennas_val]
+
+            # if last real image, reset img_ID back to 0 to loop through images again
+            if img_ID_training >= len(training_imgs):
+                img_ID_training = 0
+                screen.blit(training_imgs[img_ID_training], (args.img_pos_x, args.img_pos_y))
+            else:
+                screen.blit(training_imgs[img_ID_training], (args.img_pos_x, args.img_pos_y)) # display the next image
+        
+        # Check if we want to exit training and if mouse button was released
         for event in pygame.event.get():
             # closing the window or pressing escape will exit training and take you back to the menu. can then hit escape again to quit.
             if event.type == pygame.QUIT:
@@ -37,8 +92,7 @@ def training_loop(training_imgs, training_dict):
     return
 
 #loop for menu and real images loop
-def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict):
-    global new_press
+def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_press):
 
     menu_running = True
     SR_real_running = False
@@ -49,12 +103,20 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict):
     
     # rect objects to surround the user inputs
     # these are part of this loop to detect collisions for typing in the subID and conditionNo inputs
-    subID_rect = pygame.rect.Rect((140, 80), (140, 35)) #create rect object to surround subID_text_input
-    conditionNo_rect = pygame.rect.Rect((520, 80), (140, 35)) #create rect object to surround conditionNo_text_input
+    subID_rect = pygame.rect.Rect((140, 80), (140, 35)) # create rect object to surround subID_text_input
+    conditionNo_rect = pygame.rect.Rect((520, 80), (140, 35)) # create rect object to surround conditionNo_text_input
+    
+    # Mouse Position Initialization
+    Mouse_Pos(args)
+
+    people_val, vehicle_val, bags_val, barrels_val, antennas_val = 0, 0, 0, 0, 0 # user counts
+    obj_scores = [people_val, vehicle_val, bags_val, barrels_val, antennas_val]
     
     # boolean of whether the user inputs are active for typing
     active_subID_box = False
     active_condNo_box = False
+
+    mode = 0        # Help differentiate between training and real loop
 
     # Game loop for the menu screen
     while menu_running:
@@ -65,20 +127,23 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict):
         training_button, start_button = menu_setup(args, screen, subID_text_input, conditionNo_text_input, subID_rect, conditionNo_rect)
 
         # enter the training_loop() if the training button is clicked
-        if training_button.check_click():
+        if training_button.check_click(new_press, args):
+            new_press = False
             # before starting, make sure the textboxes were filled out
             if subID_text_input == '' or conditionNo_text_input == '':
                print("Please fill in the Subject Id and Condition No")
             else:
-               training_loop(training_imgs, training_dict)
+               training_loop(training_imgs, training_dict, new_press)
                mode = 1 # set the mode to 1 so the real loop can run now. can still do training again if desired.
 
-        if start_button.check_click() and mode == 1:
+        if start_button.check_click(new_press, args) and mode == 1:
+           new_press = False
            menu_running = False
            SR_real_running = True # the only way to set this to True
 
-        elif start_button.check_click() and mode == 0: # this code never seems to run, not sure why
+        elif start_button.check_click(new_press, args) and mode == 0: # this code never seems to run, not sure why
            print("Please complete Training before progressing")
+           new_press = False
            menu_running = True
            SR_real_running = False
 
@@ -111,20 +176,76 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict):
                 else:
                     conditionNo_text_input += event.unicode
 
-            elif event.type == pygame.MOUSEBUTTONUP: #when the pressed mouse button is released
-                new_press = True #the next mouse button press is a new press
+            elif event.type == pygame.MOUSEBUTTONUP: # when the pressed mouse button is released
+                new_press = True # the next mouse button press is a new press
 
-        pygame.display.flip() #update the full display screen
+        pygame.display.flip() # update the full display screen
 
-    #real images loop
-    img_ID = 0 #index of the real image
+    # real images loop
+    img_ID = 0 # index of the real image
     score = 0
 
-    while SR_real_running:
-        
-        # Function sets up all the labels and checks if next button is clicked
-        game_display_setup(args, timer, screen, fps, score, img_ID, mode, real_dict, imgs = real_imgs)
+    # write the header for the output file
+    output_header = Score.score_header(args, mode)
 
+    while SR_real_running and output_header:
+        
+        screen.fill('white')
+        timer.tick(fps)
+
+        # Sets up the labels for all the add buttons
+        add_button_list = Game_Disp_Setup.add_buttons(args, screen)
+
+        # Buttons only increase counts up to 5
+        for i in range(len(add_button_list)):
+            if add_button_list[i].check_click(new_press, args):
+                new_press = False
+                if obj_scores[i] == 5:
+                    continue
+                else:
+                    obj_scores[i] += 1
+
+        # Sets up the labels for all the subtract buttons
+        sub_button_list = Game_Disp_Setup.subtract_buttons(args, screen)
+
+        # Buttons only decrease counts down to 0
+        for i in range(len(sub_button_list)):
+            if sub_button_list[i].check_click(new_press, args):
+                new_press = False
+                if obj_scores[i] == 0:
+                    continue
+                else:
+                    obj_scores[i] -= 1
+
+        Game_Disp_Setup.count_object_labels(args, screen, obj_scores)
+
+        # Button for Next
+        x_pos = args.label_xpos     # Store the x position for the Next button 
+        y_pos = args.label_start_ypos + 4*args.delta    # Store the y position for the Next button
+        next_button = Button(screen, 'Next', x_pos + 80, y_pos + 100)   # The values 80 & 100 are the deltas for x & y position respectively, change if reuqired
+        
+        # labels for target object types, 'score' and score value
+        Game_Disp_Setup.labels(args, screen, score)
+
+        screen.blit(real_imgs[img_ID], (args.img_pos_x, args.img_pos_y)) # Display the current real image
+
+        # When Next button is clicked, update the score and show next image
+        if next_button.check_click(new_press, args):
+            new_press = False
+            new_points = Score.calculate_score(args, img_ID, obj_scores, mode, score, real_dict)
+            score += new_points
+
+            img_ID += 1 # incrememnt the img_ID
+            people_val, vehicle_val, bags_val, barrels_val, antennas_val = 0, 0, 0, 0, 0
+            obj_scores = [people_val, vehicle_val, bags_val, barrels_val, antennas_val]
+
+            # if last real image, reset img_ID back to 0 to loop through images again
+            if img_ID >= len(real_imgs):
+                img_ID = 0
+                screen.blit(real_imgs[img_ID], (args.img_pos_x, args.img_pos_y))
+            else:
+                screen.blit(real_imgs[img_ID], (args.img_pos_x, args.img_pos_y)) # display the next image
+                
         # Event Loop
         for event in pygame.event.get(): # monitor user inputs
             if event.type == pygame.QUIT: # if X is clicked to close the window or escape is pressed, stop running the loop
@@ -147,8 +268,7 @@ if __name__ == "__main__":
     args = input_args() # All the arguments required from user to ensure design specific/device specific use cases are met
 
     # Screen Width & Height
-    WIDTH, HEIGHT = args.width, args.height
-    screen = pygame.display.set_mode([WIDTH, HEIGHT]) #display surface
+    screen = pygame.display.set_mode([args.width, args.height]) #display surface
     fps = 60
 
     timer = pygame.time.Clock() #clock object for keeping track of time
@@ -157,10 +277,6 @@ if __name__ == "__main__":
     pygame.display.set_caption("Spot Report") #name of the window caption
 
     new_press = True # if the next mouse click is a new press
-    mode = 0  # control boolean indicating 0 for training images mode or 1 for real images mode
-    output_file_name = '' # will take the form of 'S#_C#.csv' based on what is typed in the textboxes
-    # output_file_path = "Log_SpotReportScore/"
-    # output_header_written = False # whether the header has already been written in the output file or not
 
     # read in the answer keys
     training_dict, real_dict = load_ans_files(args)
@@ -172,4 +288,4 @@ if __name__ == "__main__":
     real_imgs = load_images(args, key="real")
 
     # run the main loop
-    loop(args, screen)
+    loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_press)

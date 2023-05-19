@@ -1,93 +1,71 @@
 import pygame
-from utils import Button, labels
-from score import calculate_score
+from utils import Button
 
 
-def game_display_setup(args, timer, screen, fps, score, img_ID, mode, ans_dict = None, imgs = None):
-        
-        pygame.font.init()
-
-        people_val, vehicle_val, bags_val, barrels_val, antennas_val = 0, 0, 0, 0, 0
-
-        screen.fill('white')
-        timer.tick(fps)
-        
+class Game_Disp_Setup:
+    def __init__(self) -> None:
+        pass
+    
+    @staticmethod
+    def add_buttons(args, screen):
         # Buttons for '+' (text, x_pos, y_pos)
-        add_button1 = Button('+', args.add_pos_x, args.start_ypos)
-        add_button2 = Button('+', args.add_pos_x, args.start_ypos + args.delta)
-        add_button3 = Button('+', args.add_pos_x, args.start_ypos + 2*args.delta)
-        add_button4 = Button('+', args.add_pos_x, args.start_ypos + 3*args.delta)
-        add_button5 = Button('+', args.add_pos_x, args.start_ypos + 4*args.delta)
-            
-        #+ buttons only increase counts up to 5
-        if add_button1.check_click():
-            if people_val < 5:
-                people_val += 1
-        elif add_button2.check_click():
-            if vehicle_val < 5:
-                vehicle_val += 1
-        elif add_button3.check_click():
-            if bags_val < 5:
-                bags_val += 1
-        elif add_button4.check_click():
-            if barrels_val < 5:
-                barrels_val += 1
-        elif add_button5.check_click():
-            if antennas_val < 5:
-                antennas_val += 1     
-            
+        add_button1 = Button(screen, '+', args.add_pos_x, args.start_ypos)
+        add_button2 = Button(screen, '+', args.add_pos_x, args.start_ypos + args.delta)
+        add_button3 = Button(screen, '+', args.add_pos_x, args.start_ypos + 2*args.delta)
+        add_button4 = Button(screen, '+', args.add_pos_x, args.start_ypos + 3*args.delta)
+        add_button5 = Button(screen, '+', args.add_pos_x, args.start_ypos + 4*args.delta)
+
+        add_button_list = [add_button1, add_button2, add_button3, add_button4, add_button5]
+
+        return add_button_list
+    
+    @staticmethod
+    def subtract_buttons(args, screen):
         # Buttons for '-' (text, x_pos, y_pos)
-        sub_button1 = Button('-', args.sub_pos_x, args.start_ypos)
-        sub_button2 = Button('-', args.sub_pos_x, args.start_ypos + args.delta)
-        sub_button3 = Button('-', args.sub_pos_x, args.start_ypos + 2*args.delta)
-        sub_button4 = Button('-', args.sub_pos_x, args.start_ypos + 3*args.delta)
-        sub_button5 = Button('-', args.sub_pos_x, args.start_ypos + 4*args.delta)
+        sub_button1 = Button(screen, '-', args.sub_pos_x, args.start_ypos)
+        sub_button2 = Button(screen, '-', args.sub_pos_x, args.start_ypos + args.delta)
+        sub_button3 = Button(screen, '-', args.sub_pos_x, args.start_ypos + 2*args.delta)
+        sub_button4 = Button(screen, '-', args.sub_pos_x, args.start_ypos + 3*args.delta)
+        sub_button5 = Button(screen, '-', args.sub_pos_x, args.start_ypos + 4*args.delta)
 
-        #- buttons only decrease counts down to 0
-        if sub_button1.check_click():
-            if people_val > 0:
-                people_val -= 1
-        elif sub_button2.check_click():
-            if vehicle_val > 0:
-                vehicle_val -= 1
-        elif sub_button3.check_click():
-            if bags_val > 0:
-                bags_val -= 1
-        elif sub_button4.check_click():
-            if barrels_val > 0:
-                barrels_val -= 1
-        elif sub_button5.check_click():
-            if antennas_val > 0:
-                antennas_val -= 1
+        sub_button_list = [sub_button1, sub_button2, sub_button3, sub_button4, sub_button5]
 
+        return sub_button_list
+
+    @staticmethod
+    def count_object_labels(args, screen, obj_scores):
+         
         # Rectangles for count of each object type. These will not be clicked on so no need to store Button class object
-        Button(str(people_val), args.label_xpos, args.label_start_ypos)
-        Button(str(vehicle_val), args.label_xpos, args.label_start_ypos + args.delta)
-        Button(str(bags_val), args.label_xpos, args.label_start_ypos + 2*args.delta)
-        Button(str(barrels_val), args.label_xpos, args.label_start_ypos + 3*args.delta)
-        Button(str(antennas_val), args.label_xpos, args.label_start_ypos + 4*args.delta)
+        Button(screen, str(obj_scores[0]), args.label_xpos, args.label_start_ypos)
+        Button(screen, str(obj_scores[1]), args.label_xpos, args.label_start_ypos + args.delta)
+        Button(screen, str(obj_scores[2]), args.label_xpos, args.label_start_ypos + 2*args.delta)
+        Button(screen, str(obj_scores[3]), args.label_xpos, args.label_start_ypos + 3*args.delta)
+        Button(screen, str(obj_scores[4]), args.label_xpos, args.label_start_ypos + 4*args.delta)
+    
+    @staticmethod
+    #creates all text labels for target objects and score
+    def labels(args, screen, score):
+        # Font size and type for target object labels
+        font = pygame.font.SysFont(args.font_type, 40)
+        # Label for Object Names
+        people_label = font.render('People', True, 'black')
+        screen.blit(people_label, (996, 80))
+        vehicles_label = font.render('Vehicles', True, 'black')
+        screen.blit(vehicles_label, (983, 200))
+        bags_label = font.render('Bags', True, 'black')
+        screen.blit(bags_label, (1007, 320))
+        barrels_label = font.render('Barrels', True, 'black')
+        screen.blit(barrels_label, (992, 440))
+        antennas_label = font.render('Antennas', True, 'black')
+        screen.blit(antennas_label, (971, 560))
+        
+        # Label for 'Score'
+        font = pygame.font.SysFont(args.font_type, 100)
+        score_label = font.render('Score: ', True, 'dark green')
+        screen.blit(score_label, (40, 40))
 
-        # Button for Next
-        x_pos = args.label_xpos     # Store the x position for the Next button 
-        y_pos = args.label_start_ypos + 4*args.delta    # Store the y position for the Next button
-        next_button = Button('Next', x_pos + 80, y_pos + 100)   # The values 80 & 100 are the deltas for x & y position respectively, change if reuqired
-            
-        #labels for target object types, 'score' and score value
-        labels(args, screen, score)
-
-        screen.blit(imgs[img_ID], (args.img_pos_x, args.img_pos_y)) # display the current real image
-
-                #when Next button is clicked, update the score and show next image
-        if next_button.check_click():
-            new_points = calculate_score(img_ID, people_val, vehicle_val, bags_val, barrels_val, antennas_val, mode, score, ans_dict)
-            score += new_points
-                
-            img_ID += 1 #incrememnt the img_ID
-            #if last real image, reset img_ID back to 0 to loop through images again
-            if img_ID >= len(imgs):
-                img_ID = 0
-                screen.blit(imgs[img_ID], (args.img_pos_x, args.img_pos_y))
-            else:
-                screen.blit(imgs[img_ID], (args.img_pos_x, args.img_pos_y)) # display the next image
+        #text for Score value
+        score_text = font.render(str(score), True, 'dark green')
+        screen.blit(score_text, (260, 40))
 
         return
