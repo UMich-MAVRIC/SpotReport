@@ -1,3 +1,10 @@
+# Contains all functions for reading the input files, images and getting user input for command line.
+"""
+For default run this on the command line with the file path to get the default setup - 1368 790 
+'training_images/*.png' 'real_images/*.png' 'answer_keys/*.csv' 'output_files/score.csv' 'output_files/mouse_position.csv' 
+'freesansbold.ttf' 18 1160 90 850 120 1000 110 750 500 40 130
+"""
+
 import glob
 import pandas as pd
 import argparse

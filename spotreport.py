@@ -1,3 +1,5 @@
+# Main File to run the Spot Report Quiz game
+
 import pygame
 from utils import menu_setup
 from read import load_images, load_ans_files, input_args

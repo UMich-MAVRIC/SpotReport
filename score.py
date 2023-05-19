@@ -1,3 +1,4 @@
+# Calculates score and provides outputs required for the output files in a csv format
 import csv
 import datetime
 
