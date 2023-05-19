@@ -1,3 +1,5 @@
+# Contains functions which setup the screen display for the Training and Real Quiz game sessions.
+
 import pygame
 from utils import Button
 
