@@ -2,6 +2,8 @@
 
 Dataset and software for the paper "..." (Ali, A., Banerjee, R., Jo, W., Robert, L.P. & Tilbury, D.M. 2023). DOI: https://doi.org/...
 
+## Abstract
+Please add a concept image of the spoty report. 
 
 ## Software
 
