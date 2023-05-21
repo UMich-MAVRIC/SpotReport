@@ -1,11 +1,14 @@
 # Main File to run the Spot Report Quiz game
-
+# need to add running command.
+# python3 sportreport.py 1368 790 'training_images\*.png' 'real_images\*.png' 'answer_keys\*.csv' 'output_files\score.csv' 'output_files\mouse_position.csv' 'freesansbold.ttf' 18 1160 90 850 120 1000 110 750 500 40 130
 import pygame
+import time
 from utils import menu_setup
 from read import load_images, load_ans_files, input_args
 from utils import Button
 from display_setup import Game_Disp_Setup
 from score import Score, Mouse_Pos
+from pylsl_function import lsl_outlet_mouse_pos, lsl_outlet_mouse_btn, lsl_outlet_processing_time, lsl_outlet_spt_task_scores
 
 # Training Loop
 def training_loop(training_imgs, training_dict, new_press):
@@ -18,6 +21,7 @@ def training_loop(training_imgs, training_dict, new_press):
 
     training_running = True
     mode = 0 # set mode to 0 to calculate score from correct dictionary
+
 
     while training_running:
         
@@ -80,6 +84,7 @@ def training_loop(training_imgs, training_dict, new_press):
         # Check if we want to exit training and if mouse button was released
         for event in pygame.event.get():
             # closing the window or pressing escape will exit training and take you back to the menu. can then hit escape again to quit.
+            
             if event.type == pygame.QUIT:
                 training_running = False
             if event.type == pygame.KEYDOWN:
@@ -87,7 +92,7 @@ def training_loop(training_imgs, training_dict, new_press):
                     training_running = False
             if event.type == pygame.MOUSEBUTTONUP: # when a pressed mouse button is released
                 new_press = True # the next mouse button press is a new press
-        
+
         pygame.display.flip() # update the full display screen
 
     training_running = False
@@ -119,6 +124,7 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_p
     active_condNo_box = False
 
     mode = 0        # Help differentiate between training and real loop
+    previous_time_task = 0
 
     # Game loop for the menu screen
     while menu_running:
@@ -142,6 +148,7 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_p
            new_press = False
            menu_running = False
            SR_real_running = True # the only way to set this to True
+           previous_time_task = time.time()
 
         elif start_button.check_click(new_press, args) and mode == 0: # this code never seems to run, not sure why
            print("Please complete Training before progressing")
@@ -151,12 +158,15 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_p
 
         for event in pygame.event.get():
             # stop running the menu loop if you close the window or press escape
+            #print(event)
             if event.type == pygame.QUIT:
                 menu_running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     menu_running = False
             if event.type == pygame.MOUSEBUTTONDOWN:    # any mouse button is pressed
+                lsl_outlet_mouse_btn("Pressed") # send true or 1
+
                 if subID_rect.collidepoint(event.pos):  # boolean of whether the event.pos (x,y) point is inside the rect object
                     active_subID_box = True   # clicking on the subID_rect will make the text active for typing
                 else:
@@ -180,7 +190,11 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_p
 
             elif event.type == pygame.MOUSEBUTTONUP: # when the pressed mouse button is released
                 new_press = True # the next mouse button press is a new press
-
+            
+            elif event.type == pygame.MOUSEMOTION: # when the pressed mouse button is released
+                lsl_outlet_mouse_pos(event.pos)
+                
+            
         pygame.display.flip() # update the full display screen
 
     # real images loop
@@ -233,6 +247,8 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_p
 
         # When Next button is clicked, update the score and show next image
         if next_button.check_click(new_press, args):
+            start_time_task = time.time()
+            
             new_press = False
             new_points = Score.calculate_score(args, img_ID, obj_scores, mode, score, real_dict)
             score += new_points
@@ -247,7 +263,13 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_p
                 screen.blit(real_imgs[img_ID], (args.img_pos_x, args.img_pos_y))
             else:
                 screen.blit(real_imgs[img_ID], (args.img_pos_x, args.img_pos_y)) # display the next image
-                
+            
+            task_time = start_time_task - previous_time_task # calculate task time
+            print("task_time==", task_time, img_ID)
+            lsl_outlet_processing_time(img_ID, task_time)
+            
+            previous_time_task = start_time_task
+
         # Event Loop
         for event in pygame.event.get(): # monitor user inputs
             if event.type == pygame.QUIT: # if X is clicked to close the window or escape is pressed, stop running the loop
@@ -288,6 +310,6 @@ if __name__ == "__main__":
 
     # read in the real images
     real_imgs = load_images(args, key="real")
-
+    
     # run the main loop
     loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_press)
