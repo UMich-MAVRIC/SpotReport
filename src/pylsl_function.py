@@ -1,6 +1,15 @@
 from pylsl import StreamInfo, StreamOutlet, StreamInlet, local_clock, resolve_stream, resolve_byprop, cf_float32, cf_double64, cf_string, cf_int32, IRREGULAR_RATE
 import numpy as np
 
+
+stop_thread = False
+
+# Configure LSL Inlet stream
+stream_name = "spt_trigger"  # Replace with the name of your LSL stream
+spt_trigger_streams = resolve_stream('name', stream_name)
+inlet_spt_trigger = StreamInlet(spt_trigger_streams[0])
+
+
 # LSL Outlet setting
 # (1) Mouse curos position
 info_spt_mouse_pos = StreamInfo("spt_mouse_pos", 'mouse_pose', 2, IRREGULAR_RATE, cf_int32, 'spotreport_gui')
@@ -77,5 +86,11 @@ def lsl_outlet_spt_task_scores(subject_answer, correct_answer):
     
     #print("outlet_spt_processing_time== ", [correct_answer_counts, incorrect_answer_counts, accuracy]) #for testing
     outlet_spt_task_scores.push_sample([correct_answer_counts, incorrect_answer_counts, accuracy])
-
     
+def read_lsl_inlet():
+    while not stop_thread:
+        # Read a sample from the inlet
+        sample, _ = inlet_spt_trigger.pull_sample()
+        # Process the sample data
+        # Replace the following line with your own data processing code
+        print(f"Received data: {sample}")

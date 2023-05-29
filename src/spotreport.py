@@ -1,14 +1,16 @@
 # Main File to run the Spot Report Quiz game
-# need to add running command.
+# need to add running command and src\pylsl_oulet_exampl\spt_trigger_outlet.py for testing this code.
 # python3 sportreport.py 1368 790 'training_images\*.png' 'real_images\*.png' 'answer_keys\*.csv' 'output_files\score.csv' 'output_files\mouse_position.csv' 'freesansbold.ttf' 18 1160 90 850 120 1000 110 750 500 40 130
 import pygame
 import time
+import threading
+import asyncio
 from utils import menu_setup
 from read import load_images, load_ans_files, input_args
 from utils import Button
 from display_setup import Game_Disp_Setup
 from score import Score, Mouse_Pos
-from pylsl_function import lsl_outlet_mouse_pos, lsl_outlet_mouse_btn, lsl_outlet_processing_time, lsl_outlet_spt_task_scores
+from pylsl_function import lsl_outlet_mouse_pos, lsl_outlet_mouse_btn, lsl_outlet_processing_time, lsl_outlet_spt_task_scores, stop_thread, inlet_spt_trigger, read_lsl_inlet
 
 # Training Loop
 def training_loop(training_imgs, training_dict, new_press):
@@ -285,6 +287,19 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_p
     pygame.quit() # if we reached here, it is because we want to quit pygame
     return # after quitting pygame, return to main function
 
+async def start_asyncio_loop():
+    # Create a separate thread for reading LSL data
+    lsl_thread = threading.Thread(target=read_lsl_inlet)
+    lsl_thread.start()
+
+    # run the main loop
+    loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_press)
+
+    # Stop the LSL thread
+    stop_thread = True
+    lsl_thread.join()
+
+
 # Main Function
 if __name__ == "__main__":
 
@@ -311,5 +326,4 @@ if __name__ == "__main__":
     # read in the real images
     real_imgs = load_images(args, key="real")
     
-    # run the main loop
-    loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_press)
+    asyncio.run(start_asyncio_loop())
