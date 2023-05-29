@@ -1,6 +1,9 @@
 # Main File to run the Spot Report Quiz game
-# need to add running command and src\pylsl_oulet_exampl\spt_trigger_outlet.py for testing this code.
+# need to add running command
 # python3 sportreport.py 1368 790 'training_images\*.png' 'real_images\*.png' 'answer_keys\*.csv' 'output_files\score.csv' 'output_files\mouse_position.csv' 'freesansbold.ttf' 18 1160 90 850 120 1000 110 750 500 40 130
+# If you don't have 'spt_trigger' outlet, you need to run this python (src\pylsl_oulet_exampl\spt_trigger_outlet.py) for testing this code.
+# the 'spt_trigger' will control the pygame to start and pasue the task.
+
 import pygame
 import time
 import threading

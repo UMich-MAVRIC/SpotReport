@@ -93,4 +93,6 @@ def read_lsl_inlet():
         sample, _ = inlet_spt_trigger.pull_sample()
         # Process the sample data
         # Replace the following line with your own data processing code
-        print(f"Received data: {sample}")
+        print(f"Received data: {sample}") 
+
+        # need to change py while llop
