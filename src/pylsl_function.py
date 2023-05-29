@@ -1,13 +1,20 @@
 from pylsl import StreamInfo, StreamOutlet, StreamInlet, local_clock, resolve_stream, resolve_byprop, cf_float32, cf_double64, cf_string, cf_int32, IRREGULAR_RATE
 import numpy as np
-
+import sys
 
 stop_thread = False
 
 # Configure LSL Inlet stream
 stream_name = "spt_trigger"  # Replace with the name of your LSL stream
-spt_trigger_streams = resolve_stream('name', stream_name)
-inlet_spt_trigger = StreamInlet(spt_trigger_streams[0])
+try:
+    spt_trigger_streams = resolve_stream('name', stream_name)
+    if len(spt_trigger_streams) > 0:
+        inlet_spt_trigger = StreamInlet(spt_trigger_streams[0])
+    else:
+        print("No stream found with the name:", stream_name)
+except:
+    print(f"Failed to find the {stream_name}. Please restart this program after starting the stream.")
+    sys.exit(1)
 
 
 # LSL Outlet setting
@@ -94,5 +101,5 @@ def read_lsl_inlet():
         # Process the sample data
         # Replace the following line with your own data processing code
         print(f"Received data: {sample}") 
-
+        
         # need to change py while llop
