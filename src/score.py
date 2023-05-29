@@ -1,6 +1,7 @@
 # Calculates score and provides outputs required for the output files in a csv format
 import csv
 import datetime
+from pylsl_function import lsl_outlet_spt_task_scores
 
 class Score:
     def __init__(self) -> None:
@@ -25,7 +26,7 @@ class Score:
     @staticmethod
     # Functon to calculate based on answers entered by user
     def calculate_score(args, img_ID, val_received , mode, current_score, ans_dict):
-
+        
         #the points for each object type
         #PEOPLE_POINTS, VEHICLES_POINTS, BAGS_POINTS, BARRELS_POINTS, ANTENNAS_POINTS
         POINTS = [2, 1, 1, 1, 1]
@@ -52,6 +53,9 @@ class Score:
         
         # append the new score to the csv file
         if mode == 1:
+            #print("# img_ID, val_received, ans_dict=", img_ID, val_received, ans_dict['data'][img_ID])
+            lsl_outlet_spt_task_scores(val_received, ans_dict['data'][img_ID]) # send answers to LSL for calculating accuracy
+            
             new_score = new_points + current_score
             current_time = datetime.datetime.now()
             with open(output_file_path, mode = "a", newline='') as file:
