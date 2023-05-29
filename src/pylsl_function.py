@@ -5,7 +5,7 @@ import sys
 stop_thread = False
 
 # Configure LSL Inlet stream
-stream_name = "spt_trigger"  # Replace with the name of your LSL stream
+stream_name = "spt_task_trigger"  # Replace with the name of your LSL stream
 try:
     spt_trigger_streams = resolve_stream('name', stream_name)
     if len(spt_trigger_streams) > 0:
@@ -101,5 +101,5 @@ def read_lsl_inlet():
         # Process the sample data
         # Replace the following line with your own data processing code
         print(f"Received data: {sample}") 
-        
+
         # need to change py while llop
