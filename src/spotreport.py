@@ -265,6 +265,7 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_p
                 screen.blit(real_imgs[img_ID], (args.img_pos_x, args.img_pos_y)) # display the next image
             
             task_time = start_time_task - previous_time_task # calculate task time
+            #print("task_time==", task_time, img_ID)
             lsl_outlet_processing_time(img_ID, task_time)
             
             previous_time_task = start_time_task
