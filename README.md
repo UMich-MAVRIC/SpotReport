@@ -17,6 +17,7 @@ The following packages are needed (please install with `python3 -m pip install -
 * `pandas`
 * `csv`
 * `datetime`
+* `pylsl`
 
 ### Spot Report Implementation
 
