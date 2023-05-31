@@ -47,6 +47,8 @@ The spot report code follows these steps in `spotreport.py`:
   * Channels: _1_;
   * Sampleing rate: _IRREGULAR_RATE_
   * Channel format: _cf_int32_
+     * 0: Pauses the spot report program. 
+     * 1: Starts or resumes the spot report program.  
 
 ### LSL outlet information
 **1. Mouse information**
