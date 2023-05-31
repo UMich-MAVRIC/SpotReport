@@ -3,7 +3,7 @@
 Dataset and software for the paper "..." (Ali, A., Banerjee, R., Jo, W., Robert, L.P. & Tilbury, D.M. 2023). DOI: https://doi.org/...
 
 ## Abstract
-Please add a concept image of the spoty report. 
+This repositoy is to disseminate a new spot report task as a secondary task. It can be integrated with the primary task developed, for example, in Unreal Engine, using Lab Streaming Layer (LSL). The spot report task requires counting target objects in static images. LSL facilitates real-time communication between the primary task and the spot report task. The spot report task is developed in Python, utilizing the Pygame library with other libraries and packages.
 
 ## Software
 
@@ -40,7 +40,13 @@ The spot report code follows these steps in `spotreport.py`:
 
 3. 
 
-
+### LSL inlet information
+**1. Program trigger**
+  * Name: _spt_task_trigger_
+  * Type: _start_pause_task_
+  * Channels: _1_;
+  * Sampleing rate: _IRREGULAR_RATE_
+  * Channel format: _cf_int32_
 
 ### LSL outlet information
 **1. Mouse information**
