@@ -1,6 +1,6 @@
 # Spot Report Secondary Task
 
-Dataset and software for the paper "..." (Ali, A., Banerjee, R., Jo, W., Robert, L.P. & Tilbury, D.M. 2023). DOI: https://doi.org/...
+Software for the paper "..." (Ali, A., Banerjee, R., Jo, W., Robert, L.P. & Tilbury, D.M. 2023). DOI: https://doi.org/...
 
 ## Abstract
 This repositoy is to disseminate a new spot report task as a secondary task. It can be integrated with the primary task developed, for example, in Unreal Engine, using Lab Streaming Layer (LSL). The spot report task requires counting target objects in static images. LSL facilitates real-time communication between the primary task and the spot report task. The spot report task is developed in Python, utilizing the Pygame library with other libraries and packages.
@@ -10,7 +10,7 @@ This repositoy is to disseminate a new spot report task as a secondary task. It 
 ### Dependencies
 
 All implementations were tested with Python 3.9.7.
-The following packages are needed (please install with `python3 -m pip install --user <package name>`):
+The following packages are needed (please install with `pip install <package name>`):
 
 * `pygame`
 * `glob`
@@ -25,7 +25,13 @@ The spot report code follows these steps in `spotreport.py`:
 
 * x
 * x
-* x:
+* while in Training loop:
+  * x
+  * x
+  * x
+  * x
+  * x
+* while in Task loop:
   * x
   * x
   * x
@@ -34,11 +40,17 @@ The spot report code follows these steps in `spotreport.py`:
 
 ### Use Instructions
 
-1. 
+1. Run `python spotreport.py' from the terminal. This will bring up the spot report menu.
 
-2. 
+2. Click and type in the textbox for the subject ID and for the condition number.
 
-3. 
+3. Click the Training button. This will start the Training loop and show the training images. After training on 5 images, the program will return to the spot report menu.
+
+4. Click the Start button. This will start the Task loop and show the task images. If the 165th task image is reached, the task images will repeat from the beginning. 
+
+5. Press the Esc key on the keyboard anytime during the Task loop to stop the spot report task.
+
+6. Explore the results and data. 
 
 ### LSL inlet information
 **1. Program trigger**
@@ -90,7 +102,7 @@ The spot report code follows these steps in `spotreport.py`:
 ## Paper Source Files and Figures
 
 The `paper` directory also contains the LaTeX source files for the paper.
-Paper figures are in .svg format in `paper/SVG figures` and in .pdf format in `paper/PDF figures`.
+Paper figures are in `paper/figures`. Figures are also provided in other formats as applicable.
 
 
 ## Misc
