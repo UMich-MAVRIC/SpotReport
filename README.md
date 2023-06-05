@@ -1,6 +1,6 @@
 # Spot Report Secondary Task
 
-Software for the paper "..." (Ali, A., Banerjee, R., Jo, W., Robert, L.P. & Tilbury, D.M. 2023). DOI: https://doi.org/...
+Software for the paper; "Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments" (Ali, A., Banerjee, R., Jo, W., Robert, L.P. & Tilbury, D.M. 2023). DOI: https://doi.org/...
 
 ## Abstract
 This repositoy is to disseminate a new spot report task as a secondary task. It can be integrated with the primary task developed, for example, in Unreal Engine, using Lab Streaming Layer (LSL). The spot report task requires counting target objects in static images. LSL facilitates real-time communication between the primary task and the spot report task. The spot report task is developed in Python, utilizing the Pygame library with other libraries and packages.
