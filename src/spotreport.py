@@ -9,7 +9,7 @@ import time
 import threading
 import asyncio
 from utils import menu_setup
-from read import load_images, load_ans_files, input_args
+from read import ex_menu_image, load_images, load_ans_files, input_args
 from utils import Button
 from display_setup import Game_Disp_Setup
 from score import Score, Mouse_Pos
@@ -137,7 +137,7 @@ def loop(args, screen, real_imgs, training_imgs, real_dict, training_dict, new_p
         screen.fill('gray94') #set background color
         timer.tick(fps)
 
-        training_button, start_button = menu_setup(args, screen, subID_text_input, conditionNo_text_input, subID_rect, conditionNo_rect)
+        training_button, start_button = menu_setup(args, screen, ex_img, subID_text_input, conditionNo_text_input, subID_rect, conditionNo_rect)
 
         # enter the training_loop() if the training button is clicked
         if training_button.check_click(new_press, args):
@@ -328,5 +328,8 @@ if __name__ == "__main__":
 
     # read in the real images
     real_imgs = load_images(args, key="real")
+
+    #read in the example objects for the menu
+    ex_img = ex_menu_image(args)
     
     asyncio.run(start_asyncio_loop())

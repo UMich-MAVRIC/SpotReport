@@ -91,7 +91,7 @@ class Button:
             return False
     
 # Function defines the labels and buttons for the Main Menu screen
-def menu_setup(args, screen, subID_text_input, conditionNo_text_input, subID_rect, conditionNo_rect):
+def menu_setup(args, screen, ex_img, subID_text_input, conditionNo_text_input, subID_rect, conditionNo_rect):
     # creates the labels and buttons for the menu
     font = pygame.font.Font(args.font_type, args.font_size)
     # Draw rectangle and empty text for sub_ID
@@ -117,5 +117,8 @@ def menu_setup(args, screen, subID_text_input, conditionNo_text_input, subID_rec
     
     #Start Button
     start_button = Button(screen, 'Start', 28, 400)
+
+    #Examples of target objects image
+    screen.blit(ex_img, (680, 160))
 
     return training_button, start_button
