@@ -56,43 +56,43 @@ def load_ans_files(args):
 # this file to achieve desired result
 def input_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('width', type=int, default=1368)
-    parser.add_argument('height', type=int, default=790)
-    parser.add_argument('example_objects', type=str, default='examples.png',
+    parser.add_argument('width', nargs='?', type=int, default=1368)
+    parser.add_argument('height', nargs='?',type=int, default=790)
+    parser.add_argument('example_objects', nargs='?',type=str, default='examples.png',
                         help="File for the example objects shown on the menu")
-    parser.add_argument('train_images', type=str, default='training_images/*.png',
+    parser.add_argument('train_images', nargs='?', type=str, default='training_images/*.png',
                         help="File path for the training images used in training")
-    parser.add_argument('real_images', type=str, default='real_images/*.png',
+    parser.add_argument('real_images', nargs='?', type=str, default='real_images/*.png',
                         help="File path for the task images used in the spot report task")
-    parser.add_argument('ans_keys', type=str, default='answer_keys/*.csv', 
+    parser.add_argument('ans_keys', nargs='?', type=str, default='answer_keys/*.csv', 
                         help="The file where answer keys are written")
-    parser.add_argument('output_file_path', type=str, default='output_files/score.csv', 
+    parser.add_argument('output_file_path', nargs='?', type=str, default='output_files/score.csv', 
                         help="Output file where score is written from the quiz")
-    parser.add_argument('output_mouse_path', type=str, default='output_files/mouse_position.csv',
+    parser.add_argument('output_mouse_path', nargs='?', type=str, default='output_files/mouse_position.csv',
                         help="Output file where the mouse positions are written")
-    parser.add_argument('font_type', type=str, default='freesansbold.ttf',
+    parser.add_argument('font_type', nargs='?', type=str, default='freesansbold.ttf',
                         help="Default font type used for the entire program")
-    parser.add_argument('font_size', type=int, default=18,
+    parser.add_argument('font_size', nargs='?', type=int, default=18,
                         help="This is just for default font size, user needs to re-size this for their specific device")
-    parser.add_argument('add_pos_x', type=int, default=1160, 
+    parser.add_argument('add_pos_x', nargs='?', type=int, default=1160, 
                         help="x position of Add button on the screen, remains same for all the add buttons")
-    parser.add_argument('start_ypos', type=int, default=90, 
+    parser.add_argument('start_ypos', nargs='?', type=int, default=90, 
                         help="The starting y position for both Add and Subtract buttons")
-    parser.add_argument('sub_pos_x', type=int, default=850, 
+    parser.add_argument('sub_pos_x', nargs='?', type=int, default=850, 
                         help="x position of Subtract button on the screen, remains same for all the subtract buttons")
-    parser.add_argument('delta', type=int, default=120, 
+    parser.add_argument('delta', nargs='?', type=int, default=120, 
                         help="The difference between the y position of the Add and Subtract buttons on the screen")
-    parser.add_argument('label_xpos', type=int, default=1000, 
+    parser.add_argument('label_xpos', nargs='?', type=int, default=1000, 
                         help="Label positions for all the Buttons")
-    parser.add_argument('label_start_ypos', type=int, default=110, 
+    parser.add_argument('label_start_ypos', nargs='?', type=int, default=110, 
                         help="Starting y position for the labels")
-    parser.add_argument('img_scale_x', type=int, default=750, 
+    parser.add_argument('img_scale_x', nargs='?', type=int, default=750, 
                         help="Resizing the image sizes for the game, can be different depending upon user preference")
-    parser.add_argument('img_scale_y', type=int, default=500, 
+    parser.add_argument('img_scale_y', nargs='?', type=int, default=500, 
                         help="Resizing the image sizes for the game, can be different depending upon user preference")
-    parser.add_argument('img_pos_x', type=int, default=40, 
+    parser.add_argument('img_pos_x', nargs='?', type=int, default=40, 
                         help="x position of the image on the game screen")
-    parser.add_argument('img_pos_y', type=int, default=130,
+    parser.add_argument('img_pos_y', nargs='?', type=int, default=130,
                         help="y position of the image on the game screen")
     args = parser.parse_args()
     return args
