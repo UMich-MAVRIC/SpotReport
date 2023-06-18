@@ -1,7 +1,7 @@
 # Contains fucntions to draw buttons, check which mouse button is clicked and setup the menu screen
 
 import pygame
-from score import Mouse_Pos
+from score import Mouse
 
 class Button:
     def __init__(self, screen, text, x_pos, y_pos):
@@ -60,7 +60,6 @@ class Button:
             pygame.draw.rect(self.screen, 'black', button_rect, 2, 5)
             self.screen.blit(button_text, (self.x_pos + 220, self.y_pos + 20))
         
-
         # For object type rectangles to hold count values
         else:
             # Font type and Size
@@ -83,9 +82,9 @@ class Button:
         else: #Next button
             button_rect = pygame.rect.Rect((self.x_pos, self.y_pos), (155, 60)) #rect object the same size as the next button
         
-        if left_click and button_rect.collidepoint(mouse_pos) and new_press == True:
+        if left_click and button_rect.collidepoint(mouse_pos) and new_press:
             #the mouse was clicked over a button and it is a new button press
-            Mouse_Pos.write_mouse_pos(args, mouse_pos)
+            #Mouse.write_mouse_pos(args, mouse_pos) #??? new_press = False #reset to True in loop when mouse button is released
             return True
         else:
             return False
@@ -112,10 +111,10 @@ def menu_setup(args, screen, ex_img, subID_text_input, conditionNo_text_input, s
     conditionNo_label = font.render('Condition No', True, 'black')
     screen.blit(conditionNo_label, (390, 88))
 
-    # Training ButtonNone
-    training_button = Button(screen, 'Training', 28, 200)
+    # Training Button
+    training_button = Button(screen, 'Training', 28, 200) #??? these should be args
     
-    #Start Button
+    # Start Button
     start_button = Button(screen, 'Start', 28, 400)
 
     #Examples of target objects image

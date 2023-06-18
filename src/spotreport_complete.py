@@ -262,7 +262,7 @@ def menu_setup(subID_text_input, conditionNo_text_input, subID_rect, conditionNo
 def calculate_score(img_ID, people_val, vehicle_val, bags_val, barrels_val, antennas_val, mode, current_score):
     #calculate score based on entered counts and answer key
 
-    global real_dict #already read in upon startup
+    global task_dict #already read in upon startup
     global training_dict #already read in upon startup
     global output_file_name
     global output_file_path
@@ -274,7 +274,7 @@ def calculate_score(img_ID, people_val, vehicle_val, bags_val, barrels_val, ante
     BONUS_POINTS = 1
 
     if mode == 1:
-        current_dict = real_dict
+        current_dict = task_dict
     else: #mode == 0
         current_dict = training_dict
 
@@ -464,9 +464,9 @@ def training_loop():
 
     return
 
-#loop for menu and real images loop
+#loop for menu and task images loop
 def loop():
-    global real_imgs
+    global task_imgs
     global new_press
     global mode
     global start_task_time
@@ -479,7 +479,7 @@ def loop():
     global output_header_written
 
     menu_running = True
-    SR_real_running = False
+    SR_task_running = False
 
     file_paths_set = False #whether the UE and output file paths have been set
 
@@ -535,11 +535,11 @@ def loop():
 
                     file_paths_set = True
 
-               mode = 1 #set the mode to 1 so the real loop can run now. can still do training again if desired.
+               mode = 1 #set the mode to 1 so the task loop can run now. can still do training again if desired.
 
         if start_button.check_click() and mode == 1:
            menu_running = False
-           SR_real_running = True #the only way to set this to True is by clicking Start or automatically from UE
+           SR_task_running = True #the only way to set this to True is by clicking Start or automatically from UE
            start_task_time = time.time() #start the timer for the first image
 
         elif start_button.check_click() and mode == 0: #this code never seems to run, not sure why
@@ -560,7 +560,7 @@ def loop():
                 
                     if lockout_reason == "UGVs_Start": #start spot report automatically with UE
                         menu_running = False
-                        SR_real_running = True #the only way to set this to True is by clicking Start or automatically from UE
+                        SR_task_running = True #the only way to set this to True is by clicking Start or automatically from UE
                         start_task_time = time.time() #start the timer for the first image
         
         for event  in pygame.event.get():
@@ -597,8 +597,8 @@ def loop():
 
         pygame.display.flip() #update the full display screen
 
-    #real images loop
-    img_ID = 0 #index of the real image
+    #task images loop
+    img_ID = 0 #index of the task image
     people_val, vehicle_val, bags_val, barrels_val, antennas_val = 0, 0, 0, 0, 0
     score = 0
     UE_rows = 0 #number of UE score rows read already
@@ -608,7 +608,7 @@ def loop():
     coming_from_lockout = False #whether the spot report is now unlocked coming from a locked state
 
 
-    while SR_real_running:
+    while SR_task_running:
         pygame.font.init()
 
         try:
@@ -715,7 +715,7 @@ def loop():
             #labels for target object types, 'score' and score value
             labels(score)
 
-            screen.blit(real_imgs[img_ID], (40, 130)) #display the current real image
+            screen.blit(task_imgs[img_ID], (40, 130)) #display the current task image
 
             #when Next button is clicked, update the score and show next image
             if next_button.check_click():
@@ -725,12 +725,12 @@ def loop():
                 people_val, vehicle_val, bags_val, barrels_val, antennas_val = 0, 0, 0, 0, 0 #reset counts for next image
                 
                 img_ID += 1 #incrememnt the img_ID
-                #if last real image, reset img_ID back to 0 to loop through images again
-                if img_ID >= len(real_imgs):
+                #if last task image, reset img_ID back to 0 to loop through images again
+                if img_ID >= len(task_imgs):
                     img_ID = 0
-                    screen.blit(real_imgs[img_ID], (40, 130))
+                    screen.blit(task_imgs[img_ID], (40, 130))
                 else:
-                    screen.blit(real_imgs[img_ID], (40, 130)) #display the next image
+                    screen.blit(task_imgs[img_ID], (40, 130)) #display the next image
 
                 if subtract_lockout:
                     task_time = (end_task_time - start_task_time) - (lockout_end_time - lockout_start_time)
@@ -784,10 +784,10 @@ def loop():
         # Event Loop
         for event in pygame.event.get(): #monitor user inputs
             if event.type == pygame.QUIT: #if X is clicked to close the window or escape is pressed, stop running the loop
-                SR_real_running = False
+                SR_task_running = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    SR_real_running = False
+                    SR_task_running = False
                 if event.key == pygame.K_l: #as a backup in case of lockout issues, if the 'L' key is pressed
                     lockout = not(lockout) #flip the lockout boolean value
             if event.type == pygame.MOUSEBUTTONUP: #when the pressed mouse button is released
@@ -818,7 +818,7 @@ if __name__ == "__main__":
     pygame.display.set_caption("Spot Report") #name of the window caption
 
     new_press = True #if the next mouse click is a new press
-    mode = 0  #control boolean indicating 0 for training images mode or 1 for real images mode
+    mode = 0  #control boolean indicating 0 for training images mode or 1 for task images mode
     start_task_time = 0 #timer for the time spent on each image
     output_file_name = '' #will take the form of 'S#_C#.csv' based on what is typed in the textboxes
     output_file_path = "Log_SpotReportScore/"
@@ -830,14 +830,14 @@ if __name__ == "__main__":
     UE_lockout_file_path = "//rob-tilbury01/c$/Users/MAVRIC-LAB-UE-DEV-1/Documents/Unreal Projects/Arsha-Ali-Workspace/Log_Lockouts/" #change to the local file path on the UE sim PC
     answer_keys_path = "answer_keys/*.csv"
     training_imgs_path = "training_images/*.png"
-    real_imgs_path = "real_images/*.png"
+    task_imgs_path = "task_images/*.png"
 
     menu_examples_file = "examples.png" #examples of each target object
     ex_img = pygame.image.load(menu_examples_file)
     ex_img = pygame.transform.scale(ex_img, (650, 400))
 
     #read in the answer keys
-    answer_files = sorted(glob.glob(answer_keys_path)) #put the training and real answer key file names into a list sorted alphabetically
+    answer_files = sorted(glob.glob(answer_keys_path)) #put the training and task answer key file names into a list sorted alphabetically
     dict_i = 0 #to assign the answer keys to dictionaries
     for file in answer_files:
         df = pd.read_csv(file, index_col = 0) #read in the csv file and use the 0th column (Image_ID) as the row labels of the data frame
@@ -845,7 +845,7 @@ if __name__ == "__main__":
         del df_dict['index'] #delete the 'index' key
         del df_dict['columns'] #delete the 'columns' key so the dictionary is just the data as {'data': [[0, 5, 0, 0, 5], [0, 0, 0, 0, 0], [2, 0, 2, 0, 1], [0, 0, 1, 1, 0], [2, 2, 2, 2, 0]]}
         if dict_i == 0:
-            real_dict = df_dict #the first file in csv_file is the real answer key
+            task_dict = df_dict #the first file in csv_file is the task answer key
         elif dict_i == 1:
             training_dict = df_dict #the second file in csv_file is the training answer key
         dict_i += 1
@@ -858,12 +858,12 @@ if __name__ == "__main__":
         img = pygame.image.load(filename) #returns a surface object that has the image drawn onto it. This is separate from the display surface object so later we have to blit it (copy contents of one surface onto another)
         training_imgs.append(pygame.transform.scale(img, (750, 500))) #scale the image size and append the surface object to the training_imgs[] list
     
-    #read in the real images
-    real_images = sorted(glob.glob(real_imgs_path)) #put the real images file names into a list sorted alphabetically
-    real_imgs = []
-    for filename in real_images:
+    #read in the task images
+    task_images = sorted(glob.glob(task_imgs_path)) #put the task images file names into a list sorted alphabetically
+    task_imgs = []
+    for filename in task_images:
         img = pygame.image.load(filename) #returns a surface object that has the image drawn onto it. This is separate from the display surface object so later we have to blit it (copy contents of one surface onto another)
-        real_imgs.append(pygame.transform.scale(img, (750, 500))) #scale the image size and append the surface object to the real_imgs[] list
+        task_imgs.append(pygame.transform.scale(img, (750, 500))) #scale the image size and append the surface object to the task_imgs[] list
 
 
     #run the main loop

@@ -18,14 +18,14 @@ for i in range(total_images): #loop from 0 to total_images-1
         str_Image_ID = '0' + str(i+1)
     else:
         str_Image_ID = str(i+1)
-    filename = 'real_images/' + str_Image_ID + '.png'
+    filename = 'task_images/' + str_Image_ID + '.png'
     if new_Image_ID[i] <= 9:
         str_new_Image_ID = '00' + str(new_Image_ID[i]) #so images get numbered 001, 002, ..., 010, 011
     elif new_Image_ID[i] <= 99:
         str_new_Image_ID = '0' + str(new_Image_ID[i])
     else:
         str_new_Image_ID = str(new_Image_ID[i])
-    new_filename = 'real_images/new_' + str_new_Image_ID + '.png'
+    new_filename = 'task_images/new_' + str_new_Image_ID + '.png'
     os.rename(filename, new_filename)
 #remove the "new_" from each file name
 for i in range(total_images):
@@ -35,8 +35,8 @@ for i in range(total_images):
         str_new_Image_ID = '0' + str(i+1)
     else:
         str_new_Image_ID = str(i+1)
-    filename = 'real_images/new_' + str_new_Image_ID + '.png'
-    new_filename = 'real_images/' + str_new_Image_ID + '.png'
+    filename = 'task_images/new_' + str_new_Image_ID + '.png'
+    new_filename = 'task_images/' + str_new_Image_ID + '.png'
     os.rename(filename, new_filename)
 
 #overwrite Image_ID column with new_Image_ID

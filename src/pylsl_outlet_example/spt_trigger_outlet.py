@@ -14,7 +14,7 @@ outlet = StreamOutlet(info)
 # Main loop
 while True:
     # Wait for user input from the terminal
-    key = input("Press '0' to send a data sample: ")
+    key = input("Press '0', '1', or '2' to send a data sample: ")
 
     # Check if the '0' key was pressed
     if key == '0':
@@ -24,12 +24,12 @@ while True:
         print("Data sample sent: 0")
     # Check if the '0' key was pressed
     elif key == '1':
-        # Send a data sample with value 0
+        # Send a data sample with value 1
         marker = 1
         outlet.push_sample([marker])
         print("Data sample sent: 1")
     elif key == '2':
-        # Send a data sample with value 0
+        # Send a data sample with value 2
         marker = 2
         outlet.push_sample([marker])
         print("Data sample sent: 2")
