@@ -105,14 +105,14 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
     menu_running = True
     SR_task_running = False
 
-    # strings to hold subID and conditionNo inputs
+    # strings to hold subID and condition inputs
     subID_text_input = ''
-    conditionNo_text_input = ''
+    condition_text_input = ''
     
     # rect objects to surround the user inputs
-    # these are part of this loop to detect collisions for typing in the subID and conditionNo inputs
+    # these are part of this loop to detect collisions for typing in the subID and condition inputs
     subID_rect = pygame.rect.Rect((140, 80), (140, 35)) # create rect object to surround subID_text_input
-    conditionNo_rect = pygame.rect.Rect((520, 80), (140, 35)) # create rect object to surround conditionNo_text_input
+    condition_rect = pygame.rect.Rect((463, 80), (140, 35)) # create rect object to surround condition_text_input
        
     # boolean of whether the user inputs are active for typing
     active_subID_box = False
@@ -127,14 +127,14 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
         screen.fill('gray94') #set background color
         timer.tick(fps)
 
-        training_button, start_button = menu_setup(args, screen, ex_img, subID_text_input, conditionNo_text_input, subID_rect, conditionNo_rect)
+        training_button, start_button = menu_setup(args, screen, ex_img, subID_text_input, condition_text_input, subID_rect, condition_rect)
 
         # enter the training_loop() if the training button is clicked
         if training_button.check_click(new_press, args):
             new_press = False ### why here
             # before starting, make sure the textboxes were filled out
-            if subID_text_input == '' or conditionNo_text_input == '':
-               print("Please fill in the Subject Id and Condition No")
+            if subID_text_input == '' or condition_text_input == '':
+               print("Please fill in the Subject Id and Condition")
             else:
                training_loop(training_imgs, training_dict, new_press)
                mode = 1 # set the mode to 1 so the task loop can run now. can still do training again if desired.
@@ -161,7 +161,7 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
                     active_subID_box = True # clicking on the subID_rect will make the text active for typing
                 else:
                     active_subID_box = False # clicking anywhere else will make the text inactive for typing
-                if conditionNo_rect.collidepoint(event.pos):
+                if condition_rect.collidepoint(event.pos):
                     active_condNo_box = True
                 else:
                     active_condNo_box = False
@@ -174,9 +174,9 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
 
             elif event.type == pygame.KEYDOWN and active_condNo_box:
                 if event.key == pygame.K_BACKSPACE:
-                    conditionNo_text_input = conditionNo_text_input[:-1]
+                    condition_text_input = condition_text_input[:-1]
                 else:
-                    conditionNo_text_input += event.unicode
+                    condition_text_input += event.unicode
 
             elif event.type == pygame.MOUSEBUTTONUP: # when the pressed mouse button is released
                 new_press = True # the next mouse button press is a new press
@@ -194,7 +194,7 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
     coming_from_lockout = False # whether the spot report is now unlocked coming from a locked state
 
     #set the extention for the output files based on the subID and condNo
-    file_extention = 'S'+ subID_text_input + '_C' + conditionNo_text_input + '.csv'
+    file_extention = 'S'+ subID_text_input + '_C' + condition_text_input + '.csv'
     
     # write the headers for the output files
     Score.score_files_header(args, file_extention) # for both score and accuracy files

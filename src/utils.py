@@ -90,7 +90,7 @@ class Button:
             return False
     
 # Function defines the labels and buttons for the Main Menu screen
-def menu_setup(args, screen, ex_img, subID_text_input, conditionNo_text_input, subID_rect, conditionNo_rect):
+def menu_setup(args, screen, ex_img, subID_text_input, condition_text_input, subID_rect, condition_rect):
     # creates the labels and buttons for the menu
     font = pygame.font.Font(args.font_type, args.font_size)
     # Draw rectangle and empty text for sub_ID
@@ -99,17 +99,17 @@ def menu_setup(args, screen, ex_img, subID_text_input, conditionNo_text_input, s
     subID_text = font.render(subID_text_input, True, 'black') #draw text on new surface with specified text color. True is for antialiasing, meaning characters have smooth edges.
     screen.blit(subID_text, (subID_rect.x + 20, subID_rect.y + 10)) #copy text surface object to screen at this location
 
-    # Draw rectangle and empty text for Condition No.
-    pygame.draw.rect(screen, 'white', conditionNo_rect, 0, 5)
-    pygame.draw.rect(screen, 'black', conditionNo_rect, 1, 5)
-    conditionNo_text = font.render(conditionNo_text_input, True, 'black')
-    screen.blit(conditionNo_text, (conditionNo_rect.x + 20, conditionNo_rect.y + 10))
+    # Draw rectangle and empty text for Condition
+    pygame.draw.rect(screen, 'white', condition_rect, 0, 5)
+    pygame.draw.rect(screen, 'black', condition_rect, 1, 5)
+    condition_text = font.render(condition_text_input, True, 'black')
+    screen.blit(condition_text, (condition_rect.x + 20, condition_rect.y + 10))
 
     # Label for user input boxes
     subID_label = font.render('Subject ID', True, 'black')
     screen.blit(subID_label, (28, 88))
-    conditionNo_label = font.render('Condition No', True, 'black')
-    screen.blit(conditionNo_label, (390, 88))
+    condition_label = font.render('Condition', True, 'black')
+    screen.blit(condition_label, (360, 88))
 
     # Training Button
     training_button = Button(screen, 'Training', 28, 200) #??? these should be args
