@@ -16,26 +16,26 @@ The repo hosts the code for (a) The Spot Report program, (b) The task and traini
 Firstly, clone this github repository, all the required code is contained within the 'src' folder.
 * `git clone https://github.com/UMich-MAVRIC/SpotReport.git`
 
-Before moving forward please ensure you have Python3 installed and an IDE such as VScode to run this codebase. We performed all testing for this program on Python 3.9.7.
+Before moving forward please ensure you have Python3 installed and an IDE such as VScode to run this codebase. We performed all testing for this program on Python 3.9.7. 
 
 Install the following dependencies, using the terminal before running the code:
 * `pip install -r requirements.txt`
 
 On all non-Windows platform and for some Windows/Python combination, a shared liblsl is required. This can be done by either using:
-* For most Linux and Windows distributions:
+* For most Linux and Windows distributions (please ensure miniconda or anaconda is setup):
 `conda install -c conda-forge liblsl`
 * For MAC devices:
 `brew install labstreaminglayer/tap/lsl`
 
 ## How to Run?
 
-To run this program, it is necessary to run the `spt_trigger_outlet` and `spotreport.py` programs simulataneously in two separate terminals.
+To run this program, it is necessary to run the `trigger.py` and `spotreport.py` programs simulataneously in two separate terminals.
 
 This can be done by running the following lines in bash -
-`python3 src\pylsl_outlet_example\spt_trigger_outlet.py` - In one bash terminal
+`python3 src\lsl_outlet\trigger.py` - In one bash terminal
 `python3 src\spotreport.py` - In other terminal
 
-Note - Once `spt_trigger_outlet.py` is run press the 0, 1 or 2 key to send data to the `spotreport.py` program.
+Note - Once `trigger.py` is run press the 0 or 1 key to send data to the `spotreport.py` program.
 
 ## Game Behavior
 
@@ -57,7 +57,7 @@ Note - Once `spt_trigger_outlet.py` is run press the 0, 1 or 2 key to send data 
 
 There are 5 output files generated in `.csv` format, within the folder `output_files`. They are as follows -
 
-* `accuracy_(Subject_Id)_(Condition).csv`
+* `accuracy_(Subject_ID)_(Condition).csv`
 * `mouse_button_(Subject_Id)_(Condition).csv`
 * `mouse_pos_(Subject_Id)_(Condition).csv`
 * `score_(Subject_Id)_(Condition).csv`
@@ -65,7 +65,8 @@ There are 5 output files generated in `.csv` format, within the folder `output_f
 
 ## LSL Outputs
 
-The LSL information are sent to the receiving end using channels defined in `pylsl.py`. The information is sent when the previous input value to the respective output channel changes. The channels are as follows -
+The LSL information are sent to the receiving end using channels defined in `lsl_streams.py`. The information is sent when the previous input value to the respective output channel changes. The channels are as follows -
+
 * Current Mouse Positions
 * When Mouse Button is Pressed or Released
 * Time between Current and Previous Task
@@ -129,3 +130,13 @@ There is standalone `.py` file `randomize.py` that can be used to randomize the 
   * Channels: _3_
   * Sampleing rate: _IRREGULAR_RATE_
   * Channel format: _cf_float32_
+
+## Citation
+If you find our work relevant to your research, please cite:
+```
+@article{TBD,
+    title={Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments},
+    author={Arsha Ali and Rohit Banerjee and Wonse Jo and TBD and Lionel P. Robert Jr. and Dawn Tilbury},
+    year={2023},
+    journal={TBD}
+}
