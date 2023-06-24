@@ -1,11 +1,2 @@
-src/__pycache__/pylsl_function.cpython-310.pyc
-src/__pycache__/utils.cpython-310.pyc
-src/__pycache__/display_setup.cpython-310.pyc
-src/__pycache__/pylsl_function.cpython-39.pyc
-src/__pycache__/pylsl_function.cpython-310.pyc
-src/__pycache__/read.cpython-310.pyc
-src/__pycache__/score.cpython-39.pyc
-src/__pycache__/utils.cpython-39.pyc
-src/__pycache__/utils.cpython-310.pyc
-git stash apply stash@{0}
+src/__pycache__/*
 .vscode

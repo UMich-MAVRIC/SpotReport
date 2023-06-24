@@ -4,7 +4,7 @@ import pandas as pd
 
 
 #this file will randomly order (rename) the spot report images
-#you need to manually perform some actions in the updated spot_report_answer_key.csv afterwards. These steps are detailed at the end of this script.
+#you need to manually perform some actions in the updated task_ans_key.csv afterwards. These steps are detailed at the end of this script.
 #do NOT run this script again before doing these steps to clean the .csv
 
 total_images = 165
@@ -40,10 +40,10 @@ for i in range(total_images):
     os.rename(filename, new_filename)
 
 #overwrite Image_ID column with new_Image_ID
-df = pd.read_csv('answer_keys/spot_report_answer_key.csv')
+df = pd.read_csv('answer_keys/task_ans_key.csv')
 df['Image_ID'] = new_Image_ID
-df.to_csv('answer_keys/spot_report_answer_key.csv')
-#now open up spot_report_answer_key.csv in Excel and delete the first column as it is an unncessary index
+df.to_csv('answer_keys/task_ans_key.csv')
+#now open up task_ans_key.csv in Excel and delete the first column as it is an unncessary index
 #now select all of the data without the headers. 
 #click 'Sort & Filter' from the Editing section on the Home tab, click 'Custom Sort', and sort by Image_ID from smallest to largest
 #hit save
