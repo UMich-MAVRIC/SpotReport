@@ -11,8 +11,9 @@ import asyncio
 from utils import menu_setup
 from read import ex_menu_image, load_images, load_ans_files, input_args
 from utils import Button
-from display_setup import Game_Disp_Setup
-from score import Score, Mouse
+from display_setup import Disp_Setup
+from score import Score
+from mouse import Mouse
 from pylsl_function import read_lsl_inlet
 
 # Training Loop
@@ -33,43 +34,43 @@ def training_loop(training_imgs, training_dict, new_press):
         file_extention = '' # file extention not needed since nothing is saved during training
 
         # Sets up all the add buttons
-        add_button_list = Game_Disp_Setup.add_buttons(args, screen)
+        add_button_list = Disp_Setup.add_buttons(args, screen)
 
         # Buttons only increase counts up to 5
         for i in range(len(add_button_list)):
             if add_button_list[i].check_click(new_press, args):
-                new_press = False #??? why here
+                new_press = False # reset to True in loop when mouse button is released
                 if obj_vals[i] == 5:
                     continue
                 else:
                     obj_vals[i] += 1
 
         # Sets up all the subtract buttons
-        sub_button_list = Game_Disp_Setup.subtract_buttons(args, screen)
+        sub_button_list = Disp_Setup.subtract_buttons(args, screen)
 
         # Buttons only decrease counts down to 0
         for i in range(len(sub_button_list)):
             if sub_button_list[i].check_click(new_press, args):
-                new_press = False #??? why here
+                new_press = False # reset to True in loop when mouse button is released
                 if obj_vals[i] == 0:
                     continue
                 else:
                     obj_vals[i] -= 1
 
         # puts user counts of objects on the screen
-        Game_Disp_Setup.count_object_labels(args, screen, obj_vals)
+        Disp_Setup.count_object_labels(args, screen, obj_vals)
 
         # Button for Next
         next_button = Button(screen, 'Next', args.next_xpos, args.next_ypos) 
                 
         # labels for target object types, 'score' and score value
-        Game_Disp_Setup.labels(args, screen, score)
+        Disp_Setup.labels(args, screen, score)
 
-        screen.blit(training_imgs[img_ID_training], (args.img_pos_x, args.img_pos_y)) # Display the current training image
+        screen.blit(training_imgs[img_ID_training], (args.img_xpos, args.img_ypos)) # Display the current training image
 
         # When Next button is clicked, update the score and show next image
         if next_button.check_click(new_press, args):
-            new_press = False #??? why here
+            new_press = False # reset to True in loop when mouse button is released
             new_points = Score.calculate_score(args, img_ID_training, obj_vals, mode, score, training_dict, file_extention)
             score += new_points
             people_val, vehicle_val, bags_val, barrels_val, antennas_val = 0, 0, 0, 0, 0 # reset counts for next image
@@ -81,7 +82,7 @@ def training_loop(training_imgs, training_dict, new_press):
                 training_running = False
                 return
             else:
-                screen.blit(training_imgs[img_ID_training], (args.img_pos_x, args.img_pos_y)) # display the next image
+                screen.blit(training_imgs[img_ID_training], (args.img_xpos, args.img_ypos)) # display the next image
             
 
         # Check if we want to exit training and if mouse button was released
@@ -131,7 +132,7 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
 
         # enter the training_loop() if the training button is clicked
         if training_button.check_click(new_press, args):
-            new_press = False ### why here
+            new_press = False # reset to True in loop when mouse button is released
             # before starting, make sure the textboxes were filled out
             if subID_text_input == '' or condition_text_input == '':
                print("Please fill in the Subject Id and Condition")
@@ -140,14 +141,14 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
                mode = 1 # set the mode to 1 so the task loop can run now. can still do training again if desired.
 
         if start_button.check_click(new_press, args) and mode == 1:
-           new_press = False #??? why here
+           new_press = False # reset to True in loop when mouse button is released
            menu_running = False
            SR_task_running = True # the only way to set this to True is by clicking Start
            start_task_time = time.time() # start the timer for the first image
 
         elif start_button.check_click(new_press, args) and mode == 0: # this code never seems to run, not sure why
            print("Please complete Training before progressing")
-           new_press = False #??? why here
+           new_press = False # reset to True in loop when mouse button is released
 
         for event in pygame.event.get():
             # stop running the menu loop if you close the window or press escape
@@ -213,56 +214,56 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
             timer.tick(fps)
 
             # Sets up all the add buttons
-            add_button_list = Game_Disp_Setup.add_buttons(args, screen)
+            add_button_list = Disp_Setup.add_buttons(args, screen)
 
             # Buttons only increase counts up to 5
             for i in range(len(add_button_list)):
                 if add_button_list[i].check_click(new_press, args):
-                    new_press = False #??? why here
+                    new_press = False # reset to True in loop when mouse button is released
                     if obj_vals[i] == 5:
                         continue
                     else:
                         obj_vals[i] += 1
 
             # Sets up all the subtract buttons
-            sub_button_list = Game_Disp_Setup.subtract_buttons(args, screen)
+            sub_button_list = Disp_Setup.subtract_buttons(args, screen)
 
             # Buttons only decrease counts down to 0
             for i in range(len(sub_button_list)):
                 if sub_button_list[i].check_click(new_press, args):
-                    new_press = False #??? why here
+                    new_press = False # reset to True in loop when mouse button is released
                     if obj_vals[i] == 0:
                         continue
                     else:
                         obj_vals[i] -= 1
 
             # puts user counts of objects on the screen
-            Game_Disp_Setup.count_object_labels(args, screen, obj_vals)
+            Disp_Setup.count_object_labels(args, screen, obj_vals)
 
             # Button for Next
             next_button = Button(screen, 'Next', args.next_xpos, args.next_ypos) 
             
             # labels for target object types, 'score' and score value
-            Game_Disp_Setup.labels(args, screen, score)
+            Disp_Setup.labels(args, screen, score)
 
-            screen.blit(task_imgs[img_ID], (args.img_pos_x, args.img_pos_y)) # Display the current task image
+            screen.blit(task_imgs[img_ID], (args.img_xpos, args.img_ypos)) # Display the current task image
 
             # When Next button is clicked, update the score and show next image
             if next_button.check_click(new_press, args):
                 end_task_time = time.time() #the end time for the current image
-                new_press = False #??? why here
+                new_press = False # reset to True in loop when mouse button is released
                 new_points = Score.calculate_score(args, img_ID, obj_vals, mode, score, task_dict, file_extention)
                 score += new_points
                 people_val, vehicle_val, bags_val, barrels_val, antennas_val = 0, 0, 0, 0, 0 # reset counts for next image
                 obj_vals = [people_val, vehicle_val, bags_val, barrels_val, antennas_val]
 
-                img_ID += 1 # incrememnt the img_ID
+                img_ID += 1 # increment the img_ID
                 # if last task image, reset img_ID back to 0 to loop through images again
                 if img_ID >= len(task_imgs):
                     img_ID = 0
-                    screen.blit(task_imgs[img_ID], (args.img_pos_x, args.img_pos_y))
+                    screen.blit(task_imgs[img_ID], (args.img_xpos, args.img_ypos))
                 else:
-                    screen.blit(task_imgs[img_ID], (args.img_pos_x, args.img_pos_y)) # display the next image
+                    screen.blit(task_imgs[img_ID], (args.img_xpos, args.img_ypos)) # display the next image
                 
                 if subtract_lockout:
                     task_time = (end_task_time - start_task_time) - (lockout_end_time - lockout_start_time)
@@ -294,11 +295,11 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
                     lockout = not(lockout) # flip the lockout boolean value
             if event.type == pygame.MOUSEBUTTONUP: # when the pressed mouse button is released
                 new_press = True # the next mouse button press is a new press
-                Mouse.write_mouse_button(args, "Released", file_extention) # write to csv and send data to LSL
+                Mouse.write_mouse_button(args, img_ID, "Released", file_extention) # write to csv and send data to LSL
             if event.type == pygame.MOUSEBUTTONDOWN: #when the mouse button is pressed
-                Mouse.write_mouse_button(args, "Pressed", file_extention) # write to csv and send data to LSL
+                Mouse.write_mouse_button(args, img_ID, "Pressed", file_extention) # write to csv and send data to LSL
             if event.type == pygame.MOUSEMOTION: #when the mouse cursor moves 
-                Mouse.write_mouse_pos(args, event.pos, file_extention) # write to csv and send data to LSL
+                Mouse.write_mouse_pos(args, img_ID, event.pos, file_extention) # write to csv and send data to LSL
 
         pygame.display.flip() # update the full display screen
     

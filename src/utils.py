@@ -1,7 +1,7 @@
 # Contains fucntions to draw buttons, check which mouse button is clicked and setup the menu screen
 
 import pygame
-from score import Mouse
+from mouse import Mouse
 
 class Button:
     def __init__(self, screen, text, x_pos, y_pos):
@@ -84,7 +84,6 @@ class Button:
         
         if left_click and button_rect.collidepoint(mouse_pos) and new_press:
             #the mouse was clicked over a button and it is a new button press
-            #Mouse.write_mouse_pos(args, mouse_pos) #??? new_press = False #reset to True in loop when mouse button is released
             return True
         else:
             return False

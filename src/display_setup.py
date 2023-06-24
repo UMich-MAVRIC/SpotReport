@@ -4,18 +4,18 @@ import pygame
 from utils import Button
 
 
-class Game_Disp_Setup:
+class Disp_Setup:
     def __init__(self) -> None:
         pass
     
     @staticmethod #function that belongs to a class but doesn't access any properties of that class
     def add_buttons(args, screen):
         # Buttons for '+' (text, x_pos, y_pos)
-        add_button1 = Button(screen, '+', args.add_pos_x, args.add_sub_pos_y)
-        add_button2 = Button(screen, '+', args.add_pos_x, args.add_sub_pos_y + args.delta)
-        add_button3 = Button(screen, '+', args.add_pos_x, args.add_sub_pos_y + 2*args.delta)
-        add_button4 = Button(screen, '+', args.add_pos_x, args.add_sub_pos_y + 3*args.delta)
-        add_button5 = Button(screen, '+', args.add_pos_x, args.add_sub_pos_y + 4*args.delta)
+        add_button1 = Button(screen, '+', args.add_xpos, args.add_sub_ypos)
+        add_button2 = Button(screen, '+', args.add_xpos, args.add_sub_ypos + args.delta)
+        add_button3 = Button(screen, '+', args.add_xpos, args.add_sub_ypos + 2*args.delta)
+        add_button4 = Button(screen, '+', args.add_xpos, args.add_sub_ypos + 3*args.delta)
+        add_button5 = Button(screen, '+', args.add_xpos, args.add_sub_ypos + 4*args.delta)
 
         add_button_list = [add_button1, add_button2, add_button3, add_button4, add_button5]
 
@@ -24,11 +24,11 @@ class Game_Disp_Setup:
     @staticmethod
     def subtract_buttons(args, screen):
         # Buttons for '-' (text, x_pos, y_pos)
-        sub_button1 = Button(screen, '-', args.sub_pos_x, args.add_sub_pos_y)
-        sub_button2 = Button(screen, '-', args.sub_pos_x, args.add_sub_pos_y + args.delta)
-        sub_button3 = Button(screen, '-', args.sub_pos_x, args.add_sub_pos_y + 2*args.delta)
-        sub_button4 = Button(screen, '-', args.sub_pos_x, args.add_sub_pos_y + 3*args.delta)
-        sub_button5 = Button(screen, '-', args.sub_pos_x, args.add_sub_pos_y + 4*args.delta)
+        sub_button1 = Button(screen, '-', args.sub_xpos, args.add_sub_ypos)
+        sub_button2 = Button(screen, '-', args.sub_xpos, args.add_sub_ypos + args.delta)
+        sub_button3 = Button(screen, '-', args.sub_xpos, args.add_sub_ypos + 2*args.delta)
+        sub_button4 = Button(screen, '-', args.sub_xpos, args.add_sub_ypos + 3*args.delta)
+        sub_button5 = Button(screen, '-', args.sub_xpos, args.add_sub_ypos + 4*args.delta)
 
         sub_button_list = [sub_button1, sub_button2, sub_button3, sub_button4, sub_button5]
 

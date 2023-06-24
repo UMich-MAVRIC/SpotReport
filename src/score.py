@@ -1,7 +1,7 @@
 # Calculates score and writes the score to the output csv file
 import csv
 import datetime
-from pylsl_function import lsl_outlet_spt_task_scores, lsl_outlet_total_score, lsl_outlet_processing_time, lsl_outlet_mouse_pos, lsl_outlet_mouse_btn
+from pylsl_function import lsl_outlet_accuracy, lsl_outlet_total_score, lsl_outlet_task_time
 
 class Score:
     def __init__(self):
@@ -9,7 +9,14 @@ class Score:
     
     def score_files_header(args, file_extention):
         output_file_path = args.output_file_path + 'score_' + file_extention 
-        header_list = ['Image_ID', 'Date/Time', 'Image Points','Total Points'] # header for output file
+        header_list = ['Date/Time', 'Image_ID', 'Image Points','Total Points'] # header for output file
+        with open(output_file_path, mode = "a", newline='') as file:
+            writer = csv.writer(file)
+            writer.writerow(header_list)
+            file.close()
+
+        output_file_path = args.output_file_path + 'accuracy_' + file_extention 
+        header_list = ['Date/Time', 'Image_ID', 'Correct Counts', 'Incorrect Counts', 'Accuracy', 'User Counts'] # header for output file
         with open(output_file_path, mode = "a", newline='') as file:
             writer = csv.writer(file)
             writer.writerow(header_list)
@@ -64,24 +71,24 @@ class Score:
             output_file_path = args.output_file_path + 'score_' + file_extention
             with open(output_file_path, mode = "a", newline='') as file:
                 writer = csv.writer(file)
-                writer.writerow([str(img_ID+1), str(current_time), str(new_points), str(new_score)]) # images are named starting from 001
+                writer.writerow([str(current_time), str(img_ID+1), str(new_points), str(new_score)]) # images are named starting from 001
                 file.close()
 
             output_file_path = args.output_file_path + 'accuracy_' + file_extention
             with open(output_file_path, mode = "a", newline='') as file:
                 writer = csv.writer(file)
-                writer.writerow([str(img_ID+1), str(current_time), str(correct_answer_counts), str(incorrect_answer_counts), str(accuracy), str(val_received)]) # images are named starting from 001
+                writer.writerow([str(current_time), str(img_ID+1), str(correct_answer_counts), str(incorrect_answer_counts), str(accuracy), str(val_received)]) # images are named starting from 001
                 file.close()
 
             # send data to LSL
-            lsl_outlet_spt_task_scores(val_received, ans_key_list) # send subject counts to LSL for calculating accuracy
-            lsl_outlet_total_score(new_score)
+            lsl_outlet_accuracy(img_ID+1, val_received, ans_key_list) # send subject counts to LSL for calculating accuracy
+            lsl_outlet_total_score(img_ID+1, new_points, new_score)
 
         return new_points
     
     def task_time_header(args, file_extention):
         output_file_path = args.output_file_path + 'task_time_' + file_extention
-        header_list = ['Image_ID', 'Date/Time', 'Task Time']
+        header_list = ['Date/Time', 'Image_ID', 'Task Time']
         with open(output_file_path, mode="a", newline='') as file:
             writer = csv.writer(file)
             writer.writerow(header_list)
@@ -93,56 +100,9 @@ class Score:
         output_file_path = args.output_file_path + 'task_time_' + file_extention
         with open(output_file_path, mode="a", newline='') as file:
             writer = csv.writer(file)
-            writer.writerow([str(img_ID+1), str(current_time), str(task_time)])
+            writer.writerow([str(current_time), str(img_ID+1), str(task_time)])
             file.close()
         
-        lsl_outlet_processing_time(img_ID, task_time) # send task time data to LSL
+        lsl_outlet_task_time(img_ID+1, task_time) # send task time data to LSL
         
-        return
-
-# class for writing mouse positions and button presses to csv files and LSL
-class Mouse:
-    def __init__(self):
-        pass
-    
-    def mouse_pos_header(args, file_extention):
-        output_file_path = args.output_file_path + 'mouse_pos_' + file_extention
-        header_list = ['Date/Time', 'Mouse Position']
-        with open(output_file_path, mode="a", newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(header_list)
-            file.close()
-        return
-
-    def write_mouse_pos(args, mouse_pos, file_extention):
-        current_time = datetime.datetime.now()
-        output_file_path = args.output_file_path + 'mouse_pos_' + file_extention
-        with open(output_file_path, mode="a", newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow([str(current_time), str(mouse_pos)])
-            file.close()
-        
-        lsl_outlet_mouse_pos(mouse_pos) # send data to LSL
-        
-        return
-    
-    def mouse_button_header(args, file_extention):
-        output_file_path = args.output_file_path + 'mouse_button_' + file_extention
-        header_list = ['Date/Time', 'Mouse Button']
-        with open(output_file_path, mode="a", newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow(header_list)
-            file.close()
-        return
-
-    def write_mouse_button(args, mouse_button, file_extention):
-        current_time = datetime.datetime.now()
-        output_file_path = args.output_file_path + 'mouse_button_' + file_extention
-        with open(output_file_path, mode="a", newline='') as file:
-            writer = csv.writer(file)
-            writer.writerow([str(current_time), str(mouse_button)])
-            file.close()
-        
-        lsl_outlet_mouse_btn(mouse_button) # send data to LSL
-
         return
