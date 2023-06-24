@@ -7,7 +7,7 @@ from pygame.locals import *
 ### LSL Inlet setting
 # Configure LSL Inlet stream 
 # If you want to use a custom inlet stream to manage the lockout function for the spot report, please ensure that you stream your inlet stream first
-# Additionally, in the pylsl_outlet_example folder, you will find a sample code that you can use. If you do not want to use LSL, you can simply run spotreport.py.
+# Additionally, in the lsl_outlet folder, you will find a sample code that you can use. If you do not want to use LSL, you can simply run spotreport.py.
 try:
     spt_trigger_streams = resolve_byprop('name', "spt_task_trigger", 1, timeout=1) 
     if len(spt_trigger_streams) > 0:
