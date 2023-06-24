@@ -59,7 +59,7 @@ def input_args():
                         help="Width of the spot report screen")
     parser.add_argument('height', nargs='?',type=int, default=790,
                         help="Height of the spot report screen")
-    parser.add_argument('example_objects', nargs='?',type=str, default='examples.png',
+    parser.add_argument('example_objects', nargs='?',type=str, default='resource/examples.png',
                         help="File for the example objects shown on the menu")
     parser.add_argument('train_images_path', nargs='?', type=str, default='training_images/*.png',
                         help="Path where the training images used in training are stored")
