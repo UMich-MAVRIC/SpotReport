@@ -7,7 +7,7 @@ from read import ex_menu_image, load_images, load_ans_files, input_args
 from display import Button, Disp_Setup, menu_setup
 from score import Score
 from mouse import Mouse
-from pylsl_streams import read_lsl_inlet
+from lsl_streams import read_lsl_inlet
 
 # Training Loop
 def training_loop(training_imgs, training_dict, new_press):

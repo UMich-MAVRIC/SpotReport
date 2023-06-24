@@ -1,7 +1,7 @@
 # class for writing mouse positions and button presses to csv files and LSL
 import csv
 import datetime
-from pylsl_streams import lsl_outlet_mouse_pos, lsl_outlet_mouse_btn
+from lsl_streams import lsl_outlet_mouse_pos, lsl_outlet_mouse_btn
 
 class Mouse:
     def __init__(self):
