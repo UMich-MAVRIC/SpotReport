@@ -11,7 +11,7 @@ The development of the program was motivated by the fact that to the best of our
 
 The repo hosts the code for (a) The Spot Report program, (b) The task and training images used for our domain (military) application (c) LSL functionality to stream data to primary application.
 
-### Dependencies
+## Dependencies
 
 Firstly, clone this github repository, all the required code is contained within the 'src' folder.
 * `git clone https://github.com/UMich-MAVRIC/SpotReport.git`
@@ -131,8 +131,14 @@ There is standalone `.py` file `randomize.py` that can be used to randomize the 
   * Channel format: _cf_float32_
 
 
+## Citation
+If you find our work relevant to your research, please cite:
+```
+@article{TBD,
+    title={Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments},
+    author={Arsha Ali and Rohit Banerjee and Wonse Jo and TBD and Lionel P. Robert Jr. and Dawn Tibury},
+    year={2023},
+    journal={TBD}
+}
+```
 
-## Misc
-
-### explain various folders
-### explain randomize images
