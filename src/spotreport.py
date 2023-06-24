@@ -1,19 +1,13 @@
 # Main File to run the Spot Report
-# need to add running command
-# python3 sportreport.py 1368 790 'training_images\*.png' 'task_images\*.png' 'answer_keys\*.csv' 'output_files\score.csv' 'output_files\mouse_position.csv' 'freesansbold.ttf' 18 1160 90 850 120 1000 110 750 500 40 130
-# If you don't have 'spt_trigger' outlet, you need to run this python (src\pylsl_oulet_exampl\spt_trigger_outlet.py) for testing this code.
-# the 'spt_trigger' will control the pygame to start and pasue the task.
 import pygame
 import time
 import threading
 import asyncio
-from utils import menu_setup
 from read import ex_menu_image, load_images, load_ans_files, input_args
-from utils import Button
-from display_setup import Disp_Setup
+from display import Button, Disp_Setup, menu_setup
 from score import Score
 from mouse import Mouse
-from pylsl_function import read_lsl_inlet
+from pylsl_streams import read_lsl_inlet
 
 # Training Loop
 def training_loop(training_imgs, training_dict, new_press):
@@ -37,7 +31,7 @@ def training_loop(training_imgs, training_dict, new_press):
 
         # Buttons only increase counts up to 5
         for i in range(len(add_button_list)):
-            if add_button_list[i].check_click(new_press, args):
+            if add_button_list[i].check_click(new_press):
                 new_press = False # reset to True in loop when mouse button is released
                 if obj_vals[i] == 5:
                     continue
@@ -49,7 +43,7 @@ def training_loop(training_imgs, training_dict, new_press):
 
         # Buttons only decrease counts down to 0
         for i in range(len(sub_button_list)):
-            if sub_button_list[i].check_click(new_press, args):
+            if sub_button_list[i].check_click(new_press):
                 new_press = False # reset to True in loop when mouse button is released
                 if obj_vals[i] == 0:
                     continue
@@ -60,7 +54,7 @@ def training_loop(training_imgs, training_dict, new_press):
         Disp_Setup.count_object_labels(args, screen, obj_vals)
 
         # Button for Next
-        next_button = Button(screen, 'Next', args.next_xpos, args.next_ypos) 
+        next_button = Button(args, screen, 'Next', args.next_xpos, args.next_ypos) 
                 
         # labels for target object types, 'score' and score value
         Disp_Setup.labels(args, screen, score)
@@ -68,7 +62,7 @@ def training_loop(training_imgs, training_dict, new_press):
         screen.blit(training_imgs[img_ID_training], (args.img_xpos, args.img_ypos)) # Display the current training image
 
         # When Next button is clicked, update the score and show next image
-        if next_button.check_click(new_press, args):
+        if next_button.check_click(new_press):
             new_press = False # reset to True in loop when mouse button is released
             new_points = Score.calculate_score(args, img_ID_training, obj_vals, mode, score, training_dict, file_extention)
             score += new_points
@@ -130,7 +124,7 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
         training_button, start_button = menu_setup(args, screen, ex_img, subID_text_input, condition_text_input, subID_rect, condition_rect)
 
         # enter the training_loop() if the training button is clicked
-        if training_button.check_click(new_press, args):
+        if training_button.check_click(new_press):
             new_press = False # reset to True in loop when mouse button is released
             # before starting, make sure the textboxes were filled out
             if subID_text_input == '' or condition_text_input == '':
@@ -139,13 +133,13 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
                training_loop(training_imgs, training_dict, new_press)
                mode = 1 # set the mode to 1 so the task loop can run now. can still do training again if desired.
 
-        if start_button.check_click(new_press, args) and mode == 1:
+        if start_button.check_click(new_press) and mode == 1:
            new_press = False # reset to True in loop when mouse button is released
            menu_running = False
            SR_task_running = True # the only way to set this to True is by clicking Start
            start_task_time = time.time() # start the timer for the first image
 
-        elif start_button.check_click(new_press, args) and mode == 0: # this code never seems to run, not sure why
+        elif start_button.check_click(new_press) and mode == 0: # this code never seems to run, not sure why
            print("Please complete Training before progressing")
            new_press = False # reset to True in loop when mouse button is released
 
@@ -217,7 +211,7 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
 
             # Buttons only increase counts up to 5
             for i in range(len(add_button_list)):
-                if add_button_list[i].check_click(new_press, args):
+                if add_button_list[i].check_click(new_press):
                     new_press = False # reset to True in loop when mouse button is released
                     if obj_vals[i] == 5:
                         continue
@@ -229,7 +223,7 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
 
             # Buttons only decrease counts down to 0
             for i in range(len(sub_button_list)):
-                if sub_button_list[i].check_click(new_press, args):
+                if sub_button_list[i].check_click(new_press):
                     new_press = False # reset to True in loop when mouse button is released
                     if obj_vals[i] == 0:
                         continue
@@ -240,7 +234,7 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
             Disp_Setup.count_object_labels(args, screen, obj_vals)
 
             # Button for Next
-            next_button = Button(screen, 'Next', args.next_xpos, args.next_ypos) 
+            next_button = Button(args, screen, 'Next', args.next_xpos, args.next_ypos) 
             
             # labels for target object types, 'score' and score value
             Disp_Setup.labels(args, screen, score)
@@ -248,13 +242,21 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
             screen.blit(task_imgs[img_ID], (args.img_xpos, args.img_ypos)) # Display the current task image
 
             # When Next button is clicked, update the score and show next image
-            if next_button.check_click(new_press, args):
+            if next_button.check_click(new_press):
                 end_task_time = time.time() #the end time for the current image
                 new_press = False # reset to True in loop when mouse button is released
                 new_points = Score.calculate_score(args, img_ID, obj_vals, mode, score, task_dict, file_extention)
                 score += new_points
                 people_val, vehicle_val, bags_val, barrels_val, antennas_val = 0, 0, 0, 0, 0 # reset counts for next image
                 obj_vals = [people_val, vehicle_val, bags_val, barrels_val, antennas_val]
+              
+                if subtract_lockout:
+                    task_time = (end_task_time - start_task_time) - (lockout_end_time - lockout_start_time)
+                    subtract_lockout = False
+                else:
+                    task_time = end_task_time - start_task_time # calculate task time
+                Score.write_task_time(args, img_ID, task_time, file_extention) # write to csv and send data to LSL
+                start_task_time = end_task_time # set the end time as the starting time for the next image
 
                 img_ID += 1 # increment the img_ID
                 # if last task image, reset img_ID back to 0 to loop through images again
@@ -263,19 +265,10 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
                     screen.blit(task_imgs[img_ID], (args.img_xpos, args.img_ypos))
                 else:
                     screen.blit(task_imgs[img_ID], (args.img_xpos, args.img_ypos)) # display the next image
-                
-                if subtract_lockout:
-                    task_time = (end_task_time - start_task_time) - (lockout_end_time - lockout_start_time)
-                    subtract_lockout = False
-                else:
-                    task_time = end_task_time - start_task_time # calculate task time
-                
-                Score.write_task_time(args, img_ID-1, task_time, file_extention) # write to csv and send data to LSL
-                start_task_time = end_task_time # set the end time as the starting time for the next image
 
         else: # spot report is locked
             screen.fill('black')
-            font = pygame.font.SysFont('Arial MS', 150)
+            font = pygame.font.SysFont(args.font_type, 150)
             locked_text = font.render('LOCKED', True, 'white')
             screen.blit(locked_text, (450, 300))
 
@@ -291,9 +284,9 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
                 if event.key == pygame.K_ESCAPE:
                     SR_task_running = False
                 if event.key == pygame.K_l: # if the 'L' key is pressed
-                    lockout = True # flip the lockout boolean value
-                if event.key == pygame.K_o: # if the 'L' key is pressed
-                    lockout = False # flip the lockout boolean value    
+                    lockout = True # spot report is locked 
+                if event.key == pygame.K_o: # if the 'O' key is pressed
+                    lockout =  False # spot report is unlocked
             if event.type == pygame.MOUSEBUTTONUP: # when the pressed mouse button is released
                 new_press = True # the next mouse button press is a new press
                 Mouse.write_mouse_button(args, img_ID, "Released", file_extention) # write to csv and send data to LSL
@@ -305,32 +298,34 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
         pygame.display.flip() # update the full display screen
     
     pygame.quit() # if we reached here, it is because we want to quit pygame
-    return # after quitting pygame, return to main function
+    return # after quitting pygame, return to start_asyncio_loop() function
 
-async def start_asyncio_loop(): #??? dont know what this does
+
+async def start_asyncio_loop(): 
     # Create a separate thread for reading LSL data
     lsl_thread = threading.Thread(target=read_lsl_inlet)
-    lsl_thread.start()
+    lsl_thread.start() # start the thread
 
+    # loop with menu, training, and task
     loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_press)
 
-    # Stop the LSL thread
-    stop_thread = True #??? never used
-    lsl_thread.join()
+    lsl_thread.join() # wait until thread is completely executed
+
+    return
 
 
 # Main Function
 if __name__ == "__main__":
 
-    pygame.init() #initialize all imported modules, including font
-    args = input_args() #optional arguments from user for design/device specifics (e.g., screen size)
+    pygame.init() # initialize all imported modules, including font
+    args = input_args() # optional arguments from user for design/device specifics (e.g., screen size)
 
-    screen = pygame.display.set_mode([args.width, args.height]) #display surface with screen width and height
+    screen = pygame.display.set_mode([args.width, args.height]) # display surface with screen width and height
     fps = 60
-    timer = pygame.time.Clock() #clock object for keeping track of time
+    timer = pygame.time.Clock() # clock object for keeping track of time
 
-    font = pygame.font.Font(args.font_type, args.font_size) #set the font type and size
-    pygame.display.set_caption("Spot Report") #name of the window caption
+    font = pygame.font.SysFont(args.font_type, 1) # set the font type and size. Font size is different throughout and set as needed
+    pygame.display.set_caption("Spot Report") # name of the window caption
 
     new_press = True # if the next mouse click is a new press
 
@@ -343,7 +338,7 @@ if __name__ == "__main__":
     # read in the task images
     task_imgs = load_images(args, key="task")
 
-    #read in the example objects for the menu
+    # read in the example objects for the menu
     ex_img = ex_menu_image(args)
     
-    asyncio.run(start_asyncio_loop()) #start LSL and main loop #???what is async
+    asyncio.run(start_asyncio_loop()) #start LSL and main loop

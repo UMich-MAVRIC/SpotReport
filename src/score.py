@@ -1,7 +1,7 @@
 # Calculates score and writes the score to the output csv file
 import csv
 import datetime
-from pylsl_function import lsl_outlet_accuracy, lsl_outlet_total_score, lsl_outlet_task_time
+from pylsl_streams import lsl_outlet_accuracy, lsl_outlet_total_score, lsl_outlet_task_time
 
 class Score:
     def __init__(self):

@@ -1,10 +1,4 @@
-# Contains all functions for reading the input files, images and getting user input for command line.
-"""
-For default run this on the command line with the file path to get the default setup - 1368 790 
-'training_images/*.png' 'task_images/*.png' 'answer_keys/*.csv' 'output_files/score.csv' 'output_files/mouse_position.csv' 
-'freesansbold.ttf' 18 1160 90 850 120 1000 110 750 500 40 130
-"""
-
+# Reads images and answer keys and gets user input args from command line
 import glob
 import pandas as pd
 import argparse
@@ -13,7 +7,7 @@ import pygame
 #Function to load image of examples of each target object. It is later added on the menu
 def ex_menu_image(args):
     ex_img = pygame.image.load(args.example_objects) #examples of each target object
-    ex_img = pygame.transform.scale(ex_img, (650, 400)) #??? make into args
+    ex_img = pygame.transform.scale(ex_img, (650, 400))
     return ex_img
 
 #Function to read in the training and task images into the program
@@ -50,9 +44,9 @@ def load_ans_files(args):
     
     return training_dict, task_dict
 
-# Function to get all input arguments from user to run the spot report task - Once deployed the user should need to only change the values in 
-# this file to achieve desired result
-# ??? score and object category labels not included, test
+# Function to get some input arguments from user to run the spot report task and place objects on the screen
+# The user should need to only change the default values here to no longer supply the args via the terminal
+# the placement of the score, object category labels, and menu objects are not included here, but can be changed in the corresponding files
 def input_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('width', nargs='?', type=int, default=1368,
@@ -69,10 +63,8 @@ def input_args():
                         help="Path where answer keys are stored")
     parser.add_argument('output_file_path', nargs='?', type=str, default='output_files/', 
                         help="Path where output csv files are written to") #output file name includes subject ID and condition
-    parser.add_argument('font_type', nargs='?', type=str, default='freesansbold.ttf',
-                        help="Default font type used for the entire program") #??? this isn't true
-    parser.add_argument('font_size', nargs='?', type=int, default=18,
-                        help="Default font size") #??? this isn't true
+    parser.add_argument('font_type', nargs='?', type=str, default='Arial MS',
+                        help="Font type used for the entire program")
     parser.add_argument('img_xpos', nargs='?', type=int, default=40,
                         help="x position of the images")
     parser.add_argument('img_ypos', nargs='?', type=int, default=130,
