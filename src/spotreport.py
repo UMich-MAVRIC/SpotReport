@@ -3,7 +3,6 @@
 # python3 sportreport.py 1368 790 'training_images\*.png' 'task_images\*.png' 'answer_keys\*.csv' 'output_files\score.csv' 'output_files\mouse_position.csv' 'freesansbold.ttf' 18 1160 90 850 120 1000 110 750 500 40 130
 # If you don't have 'spt_trigger' outlet, you need to run this python (src\pylsl_oulet_exampl\spt_trigger_outlet.py) for testing this code.
 # the 'spt_trigger' will control the pygame to start and pasue the task.
-
 import pygame
 import time
 import threading
@@ -12,7 +11,8 @@ from utils import menu_setup
 from read import ex_menu_image, load_images, load_ans_files, input_args
 from utils import Button
 from display_setup import Game_Disp_Setup
-from score import Score, Mouse
+from score import Score
+from mouse import Mouse
 from pylsl_function import read_lsl_inlet
 
 # Training Loop
@@ -291,7 +291,9 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
                 if event.key == pygame.K_ESCAPE:
                     SR_task_running = False
                 if event.key == pygame.K_l: # if the 'L' key is pressed
-                    lockout = not(lockout) # flip the lockout boolean value
+                    lockout = True # flip the lockout boolean value
+                if event.key == pygame.K_o: # if the 'L' key is pressed
+                    lockout = False # flip the lockout boolean value    
             if event.type == pygame.MOUSEBUTTONUP: # when the pressed mouse button is released
                 new_press = True # the next mouse button press is a new press
                 Mouse.write_mouse_button(args, "Released", file_extention) # write to csv and send data to LSL
@@ -310,7 +312,6 @@ async def start_asyncio_loop(): #??? dont know what this does
     lsl_thread = threading.Thread(target=read_lsl_inlet)
     lsl_thread.start()
 
-    # run the main loop #??? why do we need to pass these in
     loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_press)
 
     # Stop the LSL thread

@@ -56,7 +56,7 @@ def input_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('width', nargs='?', type=int, default=1368)
     parser.add_argument('height', nargs='?',type=int, default=790)
-    parser.add_argument('example_objects', nargs='?',type=str, default='examples.png',
+    parser.add_argument('example_objects', nargs='?',type=str, default='resource/examples.png',
                         help="File for the example objects shown on the menu")
     parser.add_argument('train_images_path', nargs='?', type=str, default='training_images/*.png',
                         help="File path for the training images used in training")

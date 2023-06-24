@@ -1,7 +1,7 @@
 # Contains fucntions to draw buttons, check which mouse button is clicked and setup the menu screen
 
 import pygame
-from score import Mouse
+from mouse import Mouse
 
 class Button:
     def __init__(self, screen, text, x_pos, y_pos):

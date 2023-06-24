@@ -1,22 +1,27 @@
-from pylsl import StreamInfo, StreamOutlet, StreamInlet, local_clock, resolve_stream, resolve_byprop, cf_float32, cf_double64, cf_string, cf_int32, IRREGULAR_RATE
+from pylsl import StreamInfo, StreamOutlet, StreamInlet, local_clock, resolve_stream, resolve_streams, resolve_byprop, cf_float32, cf_double64, cf_string, cf_int32, IRREGULAR_RATE
 import numpy as np
 import sys
+import pygame
+import asyncio
+from pygame.locals import *
 
-stop_thread = False #??? what is 5-16
+
+### LSL Inlet setting
 # Configure LSL Inlet stream 
-stream_name = "spt_task_trigger"  # Replace with the name of your LSL stream
+# If you want to use a custom inlet stream to manage the lockout function for the spotreport, please ensure that you stream your inlet stream first
+# Additionally, in the pylsl_outlet_example folder, you will find a simple inlet code that you can use. If you do not want to use LSL (Lab Streaming Layer), you can simply run spotreport.py."
 try:
-    spt_trigger_streams = resolve_stream('name', stream_name)
+    spt_trigger_streams = resolve_byprop('name', "spt_task_trigger", 1, timeout=1) 
     if len(spt_trigger_streams) > 0:
         inlet_spt_trigger = StreamInlet(spt_trigger_streams[0])
+        inlet_condition = True
     else:
-        print("No stream found with the name:", stream_name)
+        inlet_condition = False
 except:
-    print(f"Failed to find the {stream_name}. Please restart this program after starting the stream.")
-    sys.exit(1)
+    inlet_condition = False
 
 
-# LSL Outlet setting
+### LSL Outlet setting
 #mouse cursor position as x,y
 info_spt_mouse_pos = StreamInfo("spt_mouse_pos", 'mouse_pose', 2, IRREGULAR_RATE, cf_int32, 'spotreport_gui')
 outlet_spt_mouse_pos = StreamOutlet(info_spt_mouse_pos)
@@ -79,6 +84,7 @@ spt_task_scores_channels.append_child("channel")\
 info_spt_total_score = StreamInfo("spt_total_score", 'total_score', 1, IRREGULAR_RATE, cf_int32, 'spotreport_gui')
 outlet_spt_total_score = StreamOutlet(info_spt_total_score)
 
+
 def lsl_outlet_mouse_pos(mouse_pos): # publish current mouse positions; [x, y]
     #print("mouse_pos = ",mouse_pos[0], mouse_pos[1])
     outlet_spt_mouse_pos.push_sample([mouse_pos[0], mouse_pos[1]])
@@ -117,11 +123,17 @@ def lsl_outlet_total_score(total_score): # publish data when score changes
 
 
 def read_lsl_inlet(): #??? what is this
-    while not stop_thread:
+    while True and inlet_condition:
         # Read a sample from the inlet
         sample, _ = inlet_spt_trigger.pull_sample()
         # Process the sample data
         # Replace the following line with your own data processing code
-        print(f"Received data: {sample}") 
+        if int(sample[0]) == 0: # Enable Lockout
+            key_event = pygame.event.Event(KEYDOWN, key=K_o)
+            pygame.event.post(key_event)      
+            print("Data sample sent: 0 to disable lockout")
 
-        # need to change py while llop
+        elif int(sample[0]) == 1: #Disable Lockout
+            key_event = pygame.event.Event(KEYDOWN, key=K_l)
+            pygame.event.post(key_event)
+            print("Data sample sent: 1 to enable lockout")
