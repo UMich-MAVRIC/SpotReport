@@ -3,9 +3,11 @@
 ![Alt text](paper/figures/spotreport_git.png)
 
 
-[Paper](https://doi.org/...)
-
+## Abstract
 Pygame-based implementation of a new secondary task for use in human-robot interaction (HRI) studies. We have named the secondary task as Spot Report task, where the user counts the targeted objects shown in static images. A key element of our program is the ability to integrate it with other primary applications, such as one developed in Unreal Engine, using Lab Streaming Layer (LSL).
+
+[Paper link:] (https://doi.org/...)
+[Demo Video:] (https://doi.org/...)
 
 ## Motivation
 The development of the program was motivated by the fact that to the best of our knowledge, there were no suitable secondary tasks available for HRI studies in the military domain. In addition, it is challenging to integrate a standalone secondary task with game development engines such as Unreal Engine or Unity. By leveraging the expertise of military experts and LSL, the Spot Report addresses both of these gaps. Additionally, as the program developed here is standalone, it can quite easily be adapted for other domains by either changing the images and labels used for the Spot Report task or by adapting the game behavior for the particular domain.
