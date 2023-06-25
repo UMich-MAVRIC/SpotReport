@@ -49,45 +49,45 @@ def load_ans_files(args):
 # the placement of the score, object category labels, and menu objects are not included here, but can be changed in the corresponding files
 def input_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('width', nargs='?', type=int, default=1368,
+    parser.add_argument('--width', nargs='?', type=int, default=1368,
                         help="Width of the spot report screen")
-    parser.add_argument('height', nargs='?',type=int, default=790,
+    parser.add_argument('--height', nargs='?',type=int, default=790,
                         help="Height of the spot report screen")
-    parser.add_argument('example_objects', nargs='?',type=str, default='resource/examples.png',
+    parser.add_argument('--example_objects', nargs='?',type=str, default='resource/examples.png',
                         help="File for the example objects shown on the menu")
-    parser.add_argument('train_images_path', nargs='?', type=str, default='training_images/*.png',
+    parser.add_argument('--train_images_path', nargs='?', type=str, default='training_images/*.png',
                         help="Path where the training images used in training are stored")
-    parser.add_argument('task_images_path', nargs='?', type=str, default='task_images/*.png',
+    parser.add_argument('--task_images_path', nargs='?', type=str, default='task_images/*.png',
                         help="Path where the task images used in the spot report task are stored")
-    parser.add_argument('ans_keys_path', nargs='?', type=str, default='answer_keys/*.csv', 
+    parser.add_argument('--ans_keys_path', nargs='?', type=str, default='answer_keys/*.csv', 
                         help="Path where answer keys are stored")
-    parser.add_argument('output_file_path', nargs='?', type=str, default='output_files/', 
+    parser.add_argument('--output_file_path', nargs='?', type=str, default='output_files/', 
                         help="Path where output csv files are written to") #output file name includes subject ID and condition
-    parser.add_argument('font_type', nargs='?', type=str, default='Arial MS',
+    parser.add_argument('--font_type', nargs='?', type=str, default='Arial MS',
                         help="Font type used for the entire program")
-    parser.add_argument('img_xpos', nargs='?', type=int, default=40,
+    parser.add_argument('--img_xpos', nargs='?', type=int, default=40,
                         help="x position of the images")
-    parser.add_argument('img_ypos', nargs='?', type=int, default=130,
+    parser.add_argument('--img_ypos', nargs='?', type=int, default=130,
                         help="y position of the images")
-    parser.add_argument('img_xscale', nargs='?', type=int, default=750, 
+    parser.add_argument('--img_xscale', nargs='?', type=int, default=750, 
                         help="Width of the images")
-    parser.add_argument('img_yscale', nargs='?', type=int, default=500, 
+    parser.add_argument('--img_yscale', nargs='?', type=int, default=500, 
                         help="Height of the images")
-    parser.add_argument('add_xpos', nargs='?', type=int, default=1160, 
+    parser.add_argument('--add_xpos', nargs='?', type=int, default=1160, 
                         help="x position of Add buttons, remains the same for all the add buttons")
-    parser.add_argument('sub_xpos', nargs='?', type=int, default=850, 
+    parser.add_argument('--sub_xpos', nargs='?', type=int, default=850, 
                         help="x position of Subtract buttons, remains the same for all the subtract buttons")
-    parser.add_argument('add_sub_ypos', nargs='?', type=int, default=90, 
+    parser.add_argument('--add_sub_ypos', nargs='?', type=int, default=90, 
                         help="Starting y position for both Add and Subtract buttons")
-    parser.add_argument('label_xpos', nargs='?', type=int, default=1000, 
+    parser.add_argument('--label_xpos', nargs='?', type=int, default=1000, 
                         help="x position of user counts for all object categories")
-    parser.add_argument('label_ypos', nargs='?', type=int, default=110, 
+    parser.add_argument('--label_ypos', nargs='?', type=int, default=110, 
                         help="Starting y position of user counts for the object cateogires")
-    parser.add_argument('delta', nargs='?', type=int, default=120, 
+    parser.add_argument('--delta', nargs='?', type=int, default=120, 
                         help="The difference between the y position of the Add and Subtract buttons and user counts")
-    parser.add_argument('next_xpos', nargs='?', type=int, default=1080, 
+    parser.add_argument('--next_xpos', nargs='?', type=int, default=1080, 
                         help="x position for the Next button")
-    parser.add_argument('next_ypos', nargs='?', type=int, default=690, 
+    parser.add_argument('--next_ypos', nargs='?', type=int, default=690, 
                         help="y position for the Next button")
     args = parser.parse_args()
     return args
