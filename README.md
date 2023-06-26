@@ -31,6 +31,8 @@ All implementations were tested with Python 3.9.7. The following packages are ne
 * pandas 
 * pylsl
 
+On platforms other than Windows and for some Windows/Python combinations, a shared liblsl is required for the pylsl package. Please refer to the [pylsl GitHub repository](https://github.com/labstreaminglayer/pylsl) for more details.
+
 The following Python built-in modules are needed. They should already be available with the Python distribution.
 * glob
 * csv
@@ -41,12 +43,6 @@ The following Python built-in modules are needed. They should already be availab
 * threading
 * asyncio
 * os
-
-
-On all non-Windows platforms and for some Windows/Python combinations, a shared liblsl is required. This can be done by either using:
-* For most Linux and Windows distributions: `conda install -c conda-forge liblsl`
-
-* For MAC devices: `brew install labstreaminglayer/tap/lsl`
   
 
 
