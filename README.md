@@ -14,7 +14,7 @@ This repository is for the spot report task. The spot report task is a Pygame-ba
 
 
 ## Repository Files
-The repository hosts the following files.
+The following files are hosted in this repository.
 * code for the spot report task
 * code to randomize the order of task images
 * task and training images and corresponding answer keys used in our implementation
@@ -77,7 +77,7 @@ The spot report task follows these steps in `src/spotreport.py` by referencing t
 10. Explore the output files in the `src/output_files` folder as desired. 
 
 ### Randomize Task Images Order (optional)
-To randomize the order of the task images in the spot report task, run  `randomize_images.py` from the `src` folder. This will randomize the order of the task images and update the task answer key in the `src/answer_keys` folder. This is optional.
+To randomize the order of the task images in the spot report task, run  `python randomize_images.py` from the `src` folder. This will randomize the order of the task images and update the task answer key in the `src/answer_keys` folder. This is optional.
 
 ### Terminal Arguments (optional)
 Optional arguments are defined in `read.py` to enable easier adaptation of the spot report task for different screen sizes and to read different images and answer keys the user may have saved in other folders. Please note that the placement of the score, object category labels, and menu objects are not included as arguments and need to be adjusted directly in `display.py`. We used the default argument parameters in our implementation.
