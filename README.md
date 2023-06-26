@@ -129,10 +129,18 @@ There is standalone `.py` file `randomize_images.py` that can be used to randomi
      * 0: Pauses the spot report program. 
      * 1: Starts or resumes the spot report program.  
 
+## Acknowledgement
+
+The authors wish to acknowledge the technical and financial support of the Automotive Research Center (ARC) in accordance with Cooperative Agreement W56HZV-19-2-0001 U.S. Army DEVCOM Ground Vehicle Systems Center (GVSC) Warren, MI.
+
 
 
 ## Citation
 Please use the following citation:
+
+APA style citation
+
+
 ```
 @article{TBD,
     title={Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments},
