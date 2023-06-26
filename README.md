@@ -3,6 +3,7 @@
 ![Alt text](paper/figures/spotreport_git.png)
 
 
+
 ## Abstract
 This repository is for the spot report task. The spot report task is a Pygame-based implementation of a secondary task for use in human-robot interaction (HRI) experiments. The spot report task requires users to count target objects shown in static images. A key element of the spot report task implementation is the ability to integrate it with a primary task, such as one developed in Unreal Engine, using Lab Streaming Layer (LSL).
 
@@ -11,13 +12,16 @@ This repository is for the spot report task. The spot report task is a Pygame-ba
 - Demo Video: [Watch on YouTube](https://youtu.be/mhUKsqkuMPQ) or [download mp4 video](paper/video/SpotReportVideo.mp4)
 
 
+
 ## Motivation
 The development of the program was motivated by the fact that to the best of our knowledge, there were no suitable secondary tasks available for HRI studies in the military domain. In addition, it is challenging to integrate a standalone secondary task with game development engines such as Unreal Engine or Unity. By leveraging the expertise of military experts and LSL, the Spot Report addresses both of these gaps. Additionally, as the program developed here is standalone, it can quite easily be adapted for other domains by either changing the images and labels used for the Spot Report task or by adapting the game behavior for the particular domain.
+
 
 
 ## What this Repo contains?
 
 The repo hosts the code for (a) The Spot Report program, (b) The task and training images used for our domain (military) application (c) LSL functionality to stream data to primary application.
+
 
 
 ## Software
@@ -45,6 +49,7 @@ On all non-Windows platforms and for some Windows/Python combinations, a shared 
 * For MAC devices: `brew install labstreaminglayer/tap/lsl`
   
 
+
 ## Spot Report Task Implementation
 The spot report task follows these steps in `src/spotreport.py` by referencing the other `src/*.py` files:
 
@@ -57,7 +62,9 @@ The spot report task follows these steps in `src/spotreport.py` by referencing t
 7. The user can press the Esc key or close the spot report task window to close the program. Pressing the Esc key or closing the window during training will return the program to the menu.
 
 
+
 ## Use Instructions
+### Run Spot Report Task
 1. Run `git clone https://github.com/UMich-MAVRIC/SpotReport.git` to clone this repository.
 2. Ensure you have [Python](https://www.python.org/downloads/) installed and an IDE such as [Visual Studio code](https://code.visualstudio.com/) to run this codebase.
 3. To control lockout functionality or send other data to the spot report program through an LSL intlet stream, run `python trigger.py` from the `src/lsl_outlet` folder. This step is optional.
@@ -69,9 +76,17 @@ The spot report task follows these steps in `src/spotreport.py` by referencing t
 9. Close the spot report task by pressing the Esc key or closing the window.
 10. Explore the output files in the `src/output_files` folder as desired. 
 
+### Randomize Task Images Order (optional)
+To randomize the order of the task images in the spot report task, run  `randomize_images.py` from the `src` folder. This will randomize the order of the task images and update the task answer key in the `src/answer_keys` folder. This is optional, but should be run before running the spot report task.
 
-## Output Files and LSL Outlet Streams
+### Terminal Arguments (optional)
+Optional arguments are defined in `read.py` to enable easier adaptation of the spot report task for different screen sizes and to read different images and answer keys the user may have saved in other folders. Please note that the placement of the score, object category labels, and menu objects are not included as arguments and need to be adjusted directly in `display.py`. We used the default argument parameters in our implementation.
 
+To see a list of all arguments, run `python spotreport.py --help`. To supply one or more arguments, run `python spotreport.py --{arg_name} {arg_value}`. For example, if the user wants to change the width and height of the spot report task screen to 1000 and 500, run `python spotreport.py --width 1000 --height 500`. To modify the default arguments, please change the defulat value in `read.py` for the appropriate argument.
+
+
+
+## Output Files
 There are 5 output files generated in csv format in the `src/output_files` folder, where <subject ID> is replaced by the text entered into the subject ID textbox and <condition> is replaced by the text enetered into the condition textbox. The output files are appended to when the mouse information changes or when the user advances to the next task image.
 
 ### Mouse Information
@@ -84,7 +99,9 @@ There are 5 output files generated in csv format in the `src/output_files` folde
 * `score_S<subject ID>_C<condition>.csv`: the score on each task image and the total score.
 * `task_time_S<subject ID>_C<condition>.csv`: the time spent on each task image.
 
-The same information is also sent on LSL outlet streams defined in `lsl_streams.py`.
+## LSL Inlet and Outlet Streams
+The same information saved in the output files is also sent on LSL outlet streams defined in `lsl_streams.py`. The LSL inlet stream is defined in `trigger.py` and is an optional method for the spot report task to read data.
+
 | LSL info.     | Stream Name         | Stream Type     | Channel Count | Sampling Rate   | Format      | Details |
 | ------------- | ------------------- | --------------- | ------------- | --------------- | ----------- | ----------- |
 | Outlet 1      | spt_mouse_pos       | mouse_pose      | 3             | Irregular       | int32       | Ch 1: Image ID <br> Ch 2: X position <br> Ch 3: Y position          |
@@ -92,45 +109,17 @@ The same information is also sent on LSL outlet streams defined in `lsl_streams.
 | Outlet 3      | spt_task_time       | task_time       | 2             | Irregular       | float32     | Ch 1: Image ID <br> Ch 2: Execution time (sec)                      |
 | Outlet 4      | spt_task_accuracy   | task_accuracy   | 9             | Irregular       | float32     | Ch 1: Image ID <br> Ch 2: Correct counts <br> Ch 3: Incorrect counts <br> Ch 4: Accuracy (%) <br> Ch 5: count of people <br> Ch 6: count of vehicles <br> Ch 7: count of bags <br> Ch 8: count of barrels <br> Ch 9: count of antennas                                                         |
 | Outlet 5      | spt_total_score     | total_score     | 3             | Irregular       | int32       | Ch 1: Image ID <br> Ch 2: Image score <br> Ch 3: Total score        |
+| Inlet 1       | spt_task_trigger     | lock_unlock     | 1             | Irregular       | int32       | 0 (to unlock task) or 1 (to lock task)                             |
 
 
+ 
 ## Paper Source Files and Figures
 
 The `paper` folder contains the LaTeX source files for the paper. Paper figures are in `paper/figures` in .jpg or .pdf format. The file structure and flowchart diagrams are also provided in .drawio format.
 
 
-## Miscellaneous
-
-In this section, we have explained various optional features of our program that can help users of this program in the future.
-
-1. ### Terminal Arguments
-
-We have defined a range of arguments using argparse in `read.py` to enable easier adaptation of our program for different screen sizes and for users who want to use a different set of images to run with our program. Please note that the label positions still need to be adjusted directly within the `display.py`. In general our program uses the default parameters that we have used for our application.
-
-To test any arguments on the terminal window, please use the following structure - 
-
-* Type in `python3 spotreport.py` and add a space, in the terminal.
-* Refer to the `read.py` to get the argument name(s) to be changed.
-* Enter them in terminal after the space, in the format `--{arg_name} {arg_value}`. Note, `arg_name` refers to the name of the argument defined in the `read.py` file such as `width`, and `arg_value` refers to the value the user chooses to enter.
-* The user has the option to change multiple arguments by just adding them in the same format as above and separating them using a space.
-* To make a permanent modification to the default args value, please make the change in the `read.py` file by changing the default value associated with the argument.
-
-2. ### Randomize Images
-
-There is standalone `.py` file `randomize_images.py` that can be used to randomize the order of images and update the answer keys in the `answer_keys` folder. This file is not directly part of our program is just a supplementary code to provide users with additional resources.
-
-### LSL inlet information
-**1. Program trigger**
-  * Name: _spt_task_trigger_
-  * Type: _start_pause_task_
-  * Channels: _1_;
-  * Sampleing rate: _IRREGULAR_RATE_
-  * Channel format: _cf_int32_
-     * 0: Pauses the spot report program. 
-     * 1: Starts or resumes the spot report program.  
-
+ 
 ## Acknowledgement
-
 The authors wish to acknowledge the technical and financial support of the Automotive Research Center (ARC) in accordance with Cooperative Agreement W56HZV-19-2-0001 U.S. Army DEVCOM Ground Vehicle Systems Center (GVSC) Warren, MI.
 
 
@@ -138,7 +127,7 @@ The authors wish to acknowledge the technical and financial support of the Autom
 ## Citation
 Please use the following citation:
 
-APA style citation
+Ali, A., Banerjee, R., Jo, W., TBD, Robert Jr., L. P., & Tilbury, D. M. (2023). Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments. _Journal_, vol(no), x-x.
 
 
 ```
