@@ -1,92 +1,103 @@
 # Spot Report Secondary Task
 
-![Alt text](paper/figures/spotreport_git.pdf)
+![Alt text](paper/figures/spotreport_git.png)
 
 
 ## Abstract
-Pygame-based implementation of a new secondary task for use in human-robot interaction (HRI) studies. We have named the secondary task as Spot Report task, where the user counts the targeted objects shown in static images. A key element of our program is the ability to integrate it with other primary applications, such as one developed in Unreal Engine, using Lab Streaming Layer (LSL).
+This repository is for the spot report task. The spot report task is a Pygame-based implementation of a secondary task for use in human-robot interaction (HRI) experiments. The spot report task requires users to count target objects shown in static images. A key element of the spot report task implementation is the ability to integrate it with a primary task, such as one developed in Unreal Engine, using Lab Streaming Layer (LSL).
 
-- Paper link: [](https://doi.org/...)
+- Paper link: [Online version](https://doi.org/...) or [download PDF](https://doi.org/...)
 
-- Demo Video: [SpotReportVideo.mp4](paper/video/SpotReportVideo.mp4)
+- Demo Video: [Watch on YouTube](https://youtu.be/mhUKsqkuMPQ) or [download mp4 video](paper/video/SpotReportVideo.mp4)
+
 
 ## Motivation
 The development of the program was motivated by the fact that to the best of our knowledge, there were no suitable secondary tasks available for HRI studies in the military domain. In addition, it is challenging to integrate a standalone secondary task with game development engines such as Unreal Engine or Unity. By leveraging the expertise of military experts and LSL, the Spot Report addresses both of these gaps. Additionally, as the program developed here is standalone, it can quite easily be adapted for other domains by either changing the images and labels used for the Spot Report task or by adapting the game behavior for the particular domain.
+
 
 ## What this Repo contains?
 
 The repo hosts the code for (a) The Spot Report program, (b) The task and training images used for our domain (military) application (c) LSL functionality to stream data to primary application.
 
-## Dependencies
 
-Firstly, clone this github repository, all the required code is contained within the 'src' folder.
-* `git clone https://github.com/UMich-MAVRIC/SpotReport.git`
+## Software
+### Dependencies
+All implementations were tested with Python 3.9.7. The following packages are needed. Please install with `pip install -r requirements.txt`.
+* pygame 
+* pandas 
+* pylsl
 
-Before moving forward please ensure you have Python3 installed and an IDE such as VScode to run this codebase. We performed all testing for this program on Python 3.9.7.
+The following Python built-in modules are needed. They should already be available with the Python distribution.
+* glob
+* csv
+* datetime
+* time
+* argparse
+* random
+* threading
+* asyncio
+* os
 
-Install the following dependencies, using the terminal before running the code:
-* `pip install -r requirements.txt`
 
-On all non-Windows platform and for some Windows/Python combination, a shared liblsl is required. This can be done by either using:
-* For most Linux and Windows distributions: 
+On all non-Windows platforms and for some Windows/Python combinations, a shared liblsl is required. This can be done by either using:
+* For most Linux and Windows distributions: `conda install -c conda-forge liblsl`
 
-`conda install -c conda-forge liblsl`
+* For MAC devices: `brew install labstreaminglayer/tap/lsl`
+  
 
-* For MAC devices:  
+## Spot Report Task Implementation
+The spot report task follows these steps in `src/spotreport.py` by referencing the other `src/*.py` files:
 
-`brew install labstreaminglayer/tap/lsl`
+1. The program reads in the training and task images and answer keys.
+2. The menu is displayed.
+3. The user clicks and types in the textboxes for the subject ID and condition.
+4. After the subject ID and condition textboxes have been filled in, the user can click the Training button. In training, the spot report task is setup and the user completes 5 training images and returns to the menu. Training must be completed at least once before the user can start the experimental task.
+5. After training and returning to the menu, the user can click the Start button. In the experimental task, the spot report task is setup and the user can cycle through 165 task images. If the 165th task image is reached, the task images will repeat from the beginning.
+6. During the experimental task, the spot report task can be locked by pressing the 'L' key or sending a '1' through the inlet stream and unlocked by pressing the 'O' key or sending a '0' through the inlet stream. When the spot report task is locked, a black screen is displayed to prevent the user from seeing and interacting with the spot report task.
+7. The user can press the Esc key or close the spot report task window to close the program. Pressing the Esc key or closing the window during training will return the program to the menu.
 
-## How to Run?
 
-To run this program, the `spotreport.py` program must be run either in the IDE or through bash by using the line of code shown below. Additionally, to check how data can be send to the spotreport program please run the `trigger.py` file, located in the folder  `lsl_outlet`. This file must be run on a separate terminal.
+## Use Instructions
+1. Run `git clone https://github.com/UMich-MAVRIC/SpotReport.git` to clone this repository.
+2. Ensure you have [Python](https://www.python.org/downloads/) installed and an IDE such as [Visual Studio code](https://code.visualstudio.com/) to run this codebase.
+3. To control lockout functionality or send other data to the spot report program through an LSL intlet stream, run `python trigger.py` from the `src/lsl_outlet` folder. This step is optional.
+4. In a separate terminal, run `python spotreport.py` from the `src` folder.
+5. Fill out the subject ID and condition textboxes on the menu.
+6. Click the Training button to start training.
+7. Click the Start button to start the experimental task.
+8. Press the 'L' key to lock and the 'O' key to unlock the spot report task as desired. If step 3 was completed, from that terminal, send a '1' to lock and a '0' to unlock the spot report task as desired. 
+9. Close the spot report task by pressing the Esc key or closing the window.
+10. Explore the output files in the `src/output_files` folder as desired. 
 
-This can be done by running the following lines in bash -
 
-* `python3 src\spotreport.py` - In one terminal 
-* `python3 src\lsl_outlet\trigger.py` - In another terminal (Optional Step)
+## Output Files and LSL Outlet Streams
 
-Note - Once `trigger.py` is run press the 0 or 1 key to send data to the `spotreport.py` program.
+There are 5 output files generated in csv format in the `src/output_files` folder, where <subject ID> is replaced by the text entered into the subject ID textbox and <condition> is replaced by the text enetered into the condition textbox. The output files are appended to when the mouse information changes or when the user advances to the next task image.
 
-## Game Behavior
+### Mouse Information
+* `mouse_pos_S<subject ID>_C<condition>.csv`: the x and y mouse cursor position.
+* `mouse_button_S<subject ID>_C<Condition>.csv`: the state of the mouse button as either pressed or released.
 
-1. On completion of the above steps, the menu of the game will pop up.
 
-2. Click and type in the textbox for the subject ID and for the condition number. Without this you won't be able to start the game.
+### Task Performance
+* `accuracy_S<subject ID>_C<condition>.csv`: the target objects counted correctly and incorrectly, accuracy, and user counts for each target object category.
+* `score_S<subject ID>_C<condition>.csv`: the score on each task image and the total score.
+* `task_time_S<subject ID>_C<condition>.csv`: the time spent on each task image.
 
-3. Click the Training button. This will start the Training loop and show the training images. After training on 5 images, the program will return to the main menu of the program. Training must be completed at least once before moving to 'step 4'.
+The same information is also sent on LSL outlet streams defined in `lsl_streams.py`.
+| LSL info.     | Stream Name         | Stream Type     | Channel Count | Sampling Rate   | Format      | Details |
+| ------------- | ------------------- | --------------- | ------------- | --------------- | ----------- | ----------- |
+| Outlet 1      | spt_mouse_pos       | mouse_pose      | 3             | Irregular       | int32       | Ch 1: Image ID <br> Ch 2: X position <br> Ch 3: Y position          |
+| Outlet 2      | spt_mouse_btn       | mouse_button    | 2             | Irregular       | int32       | Ch 1: Image ID <br> Ch 2: 0 (for released) or 1 (for pressed)       |
+| Outlet 3      | spt_task_time       | task_time       | 2             | Irregular       | float32     | Ch 1: Image ID <br> Ch 2: Execution time (sec)                      |
+| Outlet 4      | spt_task_accuracy   | task_accuracy   | 9             | Irregular       | float32     | Ch 1: Image ID <br> Ch 2: Correct counts <br> Ch 3: Incorrect counts <br> Ch 4: Accuracy (%) <br> Ch 5: count of people <br> Ch 6: count of vehicles <br> Ch 7: count of bags <br> Ch 8: count of barrels <br> Ch 9: count of antennas                                                         |
+| Outlet 5      | spt_total_score     | total_score     | 3             | Irregular       | int32       | Ch 1: Image ID <br> Ch 2: Image score <br> Ch 3: Total score        |
 
-4. Click the Start button. This will start the Task loop and show the task images. If the 165th task image is reached, the task images will repeat from the beginning.
-
-5. The game can be locked  with the 'l' key and unlocked with the 'o' key. This is done to pause the game while the user focuses completely on the primary task. In our case, we use this when we want the user to takeover the UGV during the study.
-
-6. Press the Esc key on the keyboard anytime during the Task loop to stop the spot report task.
-
-7. Explore the results and data. All results will be stored in csv format in the 'output_files' folder.
-
-## Output files
-
-There are 5 output files generated in `.csv` format, within the folder `output_files`. They are as follows -
-
-* `accuracy_(Subject_Id)_(Condition).csv`
-* `mouse_button_(Subject_Id)_(Condition).csv`
-* `mouse_pos_(Subject_Id)_(Condition).csv`
-* `score_(Subject_Id)_(Condition).csv`
-* `task_time_(Subject_Id)_(Condition).csv`
-
-## LSL Outputs
-
-The LSL information are sent to the receiving end using channels defined in `lsl_streams.py`. The information is sent when the previous input value to the respective output channel changes. The channels are as follows -
-
-* Current Mouse Positions
-* When Mouse Button is Pressed or Released
-* Time between Current and Previous Task
-* Accuracy achieved on Current Task
-* Total Score
 
 ## Paper Source Files and Figures
 
-The `paper` directory also contains the LaTeX source files for the paper.
-Paper figures are in `paper/figures`. Figures are also provided in other formats as applicable.
+The `paper` folder contains the LaTeX source files for the paper. Paper figures are in `paper/figures` in .jpg or .pdf format. The file structure and flowchart diagrams are also provided in .drawio format.
+
 
 ## Miscellaneous
 
@@ -118,46 +129,21 @@ There is standalone `.py` file `randomize_images.py` that can be used to randomi
      * 0: Pauses the spot report program. 
      * 1: Starts or resumes the spot report program.  
 
-### LSL outlet information
-**1. Mouse information**
-* Cursor positions
-  * Name: _spt_mouse_pos_
-  * Type: _mouse_pose_
-  * Channels: _2_;
-  * Sampleing rate: _IRREGULAR_RATE_
-  * Channel format: _cf_int32_
-  
-* Button clicks
-  * Name: _spt_mouse_btn_
-  * Type: _mouse_button_
-  * Channels: _1
-  * Sampleing rate: _IRREGULAR_RATE_
-  * Channel format: _cf_string_
-
-**2. Seconday task information**
-* Task time
-  * Name: _spt_task_time_
-  * Type: _task_time_
-  * Channels: _2_
-  * Sampleing rate: _IRREGULAR_RATE_
-  * Channel format: _cf_float32_
-  
-* Task accuracy
-  * Name: _spt_task_accuracy_
-  * Type: _task_accuracy_
-  * Channels: _3_
-  * Sampleing rate: _IRREGULAR_RATE_
-  * Channel format: _cf_float32_
 
 
 ## Citation
-If you find our work relevant to your research, please cite:
+Please use the following citation:
 ```
 @article{TBD,
     title={Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments},
-    author={Arsha Ali and Rohit Banerjee and Wonse Jo and TBD and Lionel P. Robert Jr. and Dawn Tibury},
+    author={Arsha Ali and Rohit Banerjee and Wonse Jo and TBD and Lionel P. Robert Jr. and Dawn M. Tibury},
+    journal={TBD},
+    volume={},
+    number={},
+    pages={},
     year={2023},
-    journal={TBD}
+    publisher={},
+    doi={}
 }
 ```
 
