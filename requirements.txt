@@ -1,12 +1,3 @@
 pygame>=2.3.0
-glob
-csv
-datetime
-time
-argparse
 pandas
-random
-numpy
-threading
 pylsl
-asyncio
