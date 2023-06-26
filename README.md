@@ -4,7 +4,7 @@
 
 
 
-## Abstract
+## Overview
 This repository is for the spot report task. The spot report task is a Pygame-based implementation of a secondary task for use in human-robot interaction (HRI) experiments. The spot report task requires users to count target objects shown in static images. A key element of the spot report task implementation is the ability to integrate it with a primary task, such as one developed in Unreal Engine, using Lab Streaming Layer (LSL).
 
 - Paper link: [Online version](https://doi.org/...) or [download PDF](https://doi.org/...)
@@ -13,14 +13,14 @@ This repository is for the spot report task. The spot report task is a Pygame-ba
 
 
 
-## Motivation
-The development of the program was motivated by the fact that to the best of our knowledge, there were no suitable secondary tasks available for HRI studies in the military domain. In addition, it is challenging to integrate a standalone secondary task with game development engines such as Unreal Engine or Unity. By leveraging the expertise of military experts and LSL, the Spot Report addresses both of these gaps. Additionally, as the program developed here is standalone, it can quite easily be adapted for other domains by either changing the images and labels used for the Spot Report task or by adapting the game behavior for the particular domain.
-
-
-
-## What this Repo contains?
-
-The repo hosts the code for (a) The Spot Report program, (b) The task and training images used for our domain (military) application (c) LSL functionality to stream data to primary application.
+## Repository Files
+The repository hosts the following files.
+* code for the spot report task
+* code to randomize the order of task images
+* task and training images and corresponding answer keys used in our implementation
+* LSL inlet and outlet streams to send and receive data from a primary task
+* example csv output files
+* paper source files and figures
 
 
 
@@ -77,7 +77,7 @@ The spot report task follows these steps in `src/spotreport.py` by referencing t
 10. Explore the output files in the `src/output_files` folder as desired. 
 
 ### Randomize Task Images Order (optional)
-To randomize the order of the task images in the spot report task, run  `randomize_images.py` from the `src` folder. This will randomize the order of the task images and update the task answer key in the `src/answer_keys` folder. This is optional, but should be run before running the spot report task.
+To randomize the order of the task images in the spot report task, run  `randomize_images.py` from the `src` folder. This will randomize the order of the task images and update the task answer key in the `src/answer_keys` folder. This is optional.
 
 ### Terminal Arguments (optional)
 Optional arguments are defined in `read.py` to enable easier adaptation of the spot report task for different screen sizes and to read different images and answer keys the user may have saved in other folders. Please note that the placement of the score, object category labels, and menu objects are not included as arguments and need to be adjusted directly in `display.py`. We used the default argument parameters in our implementation.
@@ -87,7 +87,7 @@ To see a list of all arguments, run `python spotreport.py --help`. To supply one
 
 
 ## Output Files
-There are 5 output files generated in csv format in the `src/output_files` folder, where <subject ID> is replaced by the text entered into the subject ID textbox and <condition> is replaced by the text enetered into the condition textbox. The output files are appended to when the mouse information changes or when the user advances to the next task image.
+There are 5 output files generated in csv format in the `src/output_files` folder, where \<subject ID\> is replaced by the text entered into the subject ID textbox and \<condition\> is replaced by the text enetered into the condition textbox. The output files are appended to when the mouse information changes or when the user advances to the next task image.
 
 ### Mouse Information
 * `mouse_pos_S<subject ID>_C<condition>.csv`: the x and y mouse cursor position.
@@ -131,7 +131,7 @@ Ali, A., Banerjee, R., Jo, W., TBD, Robert Jr., L. P., & Tilbury, D. M. (2023). 
 
 
 ```
-@article{TBD,
+@article{spt_task_2023,
     title={Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments},
     author={Arsha Ali and Rohit Banerjee and Wonse Jo and TBD and Lionel P. Robert Jr. and Dawn M. Tibury},
     journal={TBD},
