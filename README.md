@@ -28,20 +28,24 @@ Install the following dependencies, using the terminal before running the code:
 * `pip install -r requirements.txt`
 
 On all non-Windows platform and for some Windows/Python combination, a shared liblsl is required. This can be done by either using:
-* For most Linux and Windows distributions:
+* For most Linux and Windows distributions: 
+
 `conda install -c conda-forge liblsl`
-* For MAC devices:
+
+* For MAC devices:  
+
 `brew install labstreaminglayer/tap/lsl`
 
 ## How to Run?
 
-To run this program, it is necessary to run the `spt_trigger_outlet` and `spotreport.py` programs simulataneously in two separate terminals.
+To run this program, the `spotreport.py` program must be run either in the IDE or through bash by using the line of code shown below. Additionally, to check how data can be send to the spotreport program please run the `trigger.py` file, located in the folder  `lsl_outlet`. This file must be run on a separate terminal.
 
 This can be done by running the following lines in bash -
-`python3 src\pylsl_outlet_example\spt_trigger_outlet.py` - In one bash terminal
-`python3 src\spotreport.py` - In other terminal
 
-Note - Once `spt_trigger_outlet.py` is run press the 0, 1 or 2 key to send data to the `spotreport.py` program.
+* `python3 src\spotreport.py` - In one terminal 
+* `python3 src\lsl_outlet\trigger.py` - In another terminal (Optional Step)
+
+Note - Once `trigger.py` is run press the 0 or 1 key to send data to the `spotreport.py` program.
 
 ## Game Behavior
 
@@ -53,7 +57,7 @@ Note - Once `spt_trigger_outlet.py` is run press the 0, 1 or 2 key to send data 
 
 4. Click the Start button. This will start the Task loop and show the task images. If the 165th task image is reached, the task images will repeat from the beginning.
 
-5. The game can be locked or unlocked at any point by pressing the 'l' key on the keyboard. This is done to pause the game while the user focuses completely on the primary task. In our case, we use this when we want the user to takeover the UGV during the study.
+5. The game can be locked  with the 'l' key and unlocked with the 'o' key. This is done to pause the game while the user focuses completely on the primary task. In our case, we use this when we want the user to takeover the UGV during the study.
 
 6. Press the Esc key on the keyboard anytime during the Task loop to stop the spot report task.
 
@@ -71,7 +75,8 @@ There are 5 output files generated in `.csv` format, within the folder `output_f
 
 ## LSL Outputs
 
-The LSL information are sent to the receiving end using channels defined in `pylsl.py`. The information is sent when the previous input value to the respective output channel changes. The channels are as follows -
+The LSL information are sent to the receiving end using channels defined in `lsl_streams.py`. The information is sent when the previous input value to the respective output channel changes. The channels are as follows -
+
 * Current Mouse Positions
 * When Mouse Button is Pressed or Released
 * Time between Current and Previous Task
@@ -91,9 +96,17 @@ In this section, we have explained various optional features of our program that
 
 We have defined a range of arguments using argparse in `read.py` to enable easier adaptation of our program for different screen sizes and for users who want to use a different set of images to run with our program. Please note that the label positions still need to be adjusted directly within the `display.py`. In general our program uses the default parameters that we have used for our application.
 
+To test any arguments on the terminal window, please use the following structure - 
+
+* Type in `python3 spotreport.py` and add a space, in the terminal.
+* Refer to the `read.py` to get the argument name(s) to be changed.
+* Enter them in terminal after the space, in the format `--{arg_name} {arg_value}`. Note, `arg_name` refers to the name of the argument defined in the `read.py` file such as `width`, and `arg_value` refers to the value the user chooses to enter.
+* The user has the option to change multiple arguments by just adding them in the same format as above and separating them using a space.
+* To make a permanent modification to the default args value, please make the change in the `read.py` file by changing the default value associated with the argument.
+
 2. ### Randomize Images
 
-There is standalone `.py` file `randomize.py` that can be used to randomize the order of images and update the answer keys in the `answer_keys` folder. This file is not directly part of our program is just a supplementary code to provide users with additional resources.
+There is standalone `.py` file `randomize_images.py` that can be used to randomize the order of images and update the answer keys in the `answer_keys` folder. This file is not directly part of our program is just a supplementary code to provide users with additional resources.
 
 ### LSL inlet information
 **1. Program trigger**
