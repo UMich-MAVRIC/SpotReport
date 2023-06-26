@@ -1,6 +1,6 @@
 # Spot Report Secondary Task
 
-![Alt text](paper/figures/spotreport_git.png)
+![Alt text](paper/figures/spotreport_git.pdf)
 
 
 ## Abstract
