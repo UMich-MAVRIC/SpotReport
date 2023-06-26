@@ -135,25 +135,9 @@ def lsl_outlet_task_time(image_ID, task_time): # time between previous and curre
     #print("image_ID, task_time = ", image_ID, task_time)
     outlet_spt_task_time.push_sample([image_ID, task_time])
 
-def lsl_outlet_accuracy(image_ID, subject_answer, correct_answer): 
-
-    if subject_answer == correct_answer: # all answers correct
-        correct_answer_counts = 5
-        incorrect_answer_counts = 0
-        accuracy = 1.0
-    else:
-        objects = 5 # the number of target object types
-        incorrect_answer_counts = 0 
-
-        for object in range(objects): 
-            if correct_answer[object] != subject_answer[object]:
-                incorrect_answer_counts += 1
-        correct_answer_counts = objects - incorrect_answer_counts
-        accuracy = correct_answer_counts / objects
-        accuracy = round(accuracy, 2)
-    
-    #print("spt_accuracy== ", [image_ID, correct_answer_counts, incorrect_answer_counts, accuracy, subject_answer])
-    outlet_spt_accuracy.push_sample([image_ID, correct_answer_counts, incorrect_answer_counts, accuracy, subject_answer[0], subject_answer[1], subject_answer[2], subject_answer[3], subject_answer[4]])
+def lsl_outlet_accuracy(image_ID, correct_answer_counts, incorrect_answer_counts, accuracy, val_received): 
+    #print("spt_accuracy== ", [image_ID, correct_answer_counts, incorrect_answer_counts, accuracy, val_received])
+    outlet_spt_accuracy.push_sample([image_ID, correct_answer_counts, incorrect_answer_counts, accuracy, val_received[0], val_received[1], val_received[2], val_received[3], val_received[4]])
 
 def lsl_outlet_total_score(image_ID, image_score, total_score): # publish data when score changes
     #print("image_ID, image_score, total_score = ", image_ID, image_score, total_score)

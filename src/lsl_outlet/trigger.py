@@ -3,7 +3,7 @@ from pylsl import StreamInfo, StreamOutlet
 
 # Create an LSL outlet stream
 stream_name = "spt_task_trigger"  # Replace with your desired stream name
-stream_type = "start_pause_task"  # Replace with the stream type you want to use
+stream_type = "lock_unlock_task"  # Replace with the stream type you want to use
 channel_count = 1  # Number of channels in the stream
 sample_rate = 0  # Irrelevant for marker streams, set to 0
 # Create the stream info

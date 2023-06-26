@@ -81,7 +81,7 @@ class Score:
                 file.close()
 
             # send data to LSL
-            lsl_outlet_accuracy(img_ID+1, val_received, ans_key_list) # send subject counts to LSL for calculating accuracy
+            lsl_outlet_accuracy(img_ID+1, correct_answer_counts, incorrect_answer_counts, accuracy, val_received)
             lsl_outlet_total_score(img_ID+1, new_points, new_score)
 
         return new_points
