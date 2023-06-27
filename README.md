@@ -1,7 +1,6 @@
 # Spot Report Secondary Task
 
-![Alt text](paper/figures/spotreport_git.png)
-
+![Alt text](paper/figures/readme_picture.png)
 
 
 ## Overview
@@ -10,7 +9,6 @@ This repository is for the spot report task. The spot report task is a Pygame-ba
 - Paper link: [Online version](https://doi.org/...) or [download PDF](https://doi.org/...)
 
 - Demo Video: [Watch on YouTube](https://youtu.be/mhUKsqkuMPQ) or [download mp4 video](paper/video/SpotReportVideo.mp4)
-
 
 
 ## Repository Files
@@ -31,8 +29,6 @@ All implementations were tested with Python 3.9.7. The following packages are ne
 * pandas 
 * pylsl
 
-On platforms other than Windows and for some Windows/Python combinations, a shared liblsl is required for the pylsl package. Please refer to the [pylsl GitHub repository](https://github.com/labstreaminglayer/pylsl) for more details.
-
 The following Python built-in modules are needed. They should already be available with the Python distribution.
 * glob
 * csv
@@ -43,7 +39,17 @@ The following Python built-in modules are needed. They should already be availab
 * threading
 * asyncio
 * os
+
+On all non-Windows platform and for some Windows/Python combination, a shared liblsl is required. This can be done by either using:
+* For most Linux and Windows distributions: 
+
+`conda install -c conda-forge liblsl`
+
+* For MAC devices:  
+
+`brew install labstreaminglayer/tap/lsl`
   
+For additional information, please refer to the following [pylsl GitHub repository](https://github.com/labstreaminglayer/pylsl) for more details.
 
 
 ## Spot Report Task Implementation
@@ -78,17 +84,16 @@ To randomize the order of the task images in the spot report task, run  `python 
 ### Terminal Arguments (optional)
 Optional arguments are defined in `read.py` to enable easier adaptation of the spot report task for different screen sizes and to read different images and answer keys the user may have saved in other folders. Please note that the placement of the score, object category labels, and menu objects are not included as arguments and need to be adjusted directly in `display.py`. We used the default argument parameters in our implementation.
 
-To see a list of all arguments, run `python spotreport.py --help`. To supply one or more arguments, run `python spotreport.py --{arg_name} {arg_value}`. For example, if the user wants to change the width and height of the spot report task screen to 1000 and 500, run `python spotreport.py --width 1000 --height 500`. To modify the default arguments, please change the defulat value in `read.py` for the appropriate argument.
+To see a list of all arguments, run `python spotreport.py --help`. To supply one or more arguments, run `python spotreport.py --{arg_name} {arg_value}`. For example, if the user wants to change the width and height of the spot report task screen to 1000 and 500, run `python spotreport.py --width 1000 --height 500`. To modify the default arguments, please change the default value in `read.py` for the appropriate argument.
 
 
 
 ## Output Files
-There are 5 output files generated in csv format in the `src/output_files` folder, where \<subject ID\> is replaced by the text entered into the subject ID textbox and \<condition\> is replaced by the text enetered into the condition textbox. The output files are appended to when the mouse information changes or when the user advances to the next task image.
+There are 5 output files generated in csv format in the `src/output_files` folder, where \<subject ID\> is replaced by the text entered into the subject ID textbox and \<condition\> is replaced by the text entered into the condition textbox. The output files are appended to when the mouse information changes or when the user advances to the next task image.
 
 ### Mouse Information
 * `mouse_pos_S<subject ID>_C<condition>.csv`: the x and y mouse cursor position.
 * `mouse_button_S<subject ID>_C<Condition>.csv`: the state of the mouse button as either pressed or released.
-
 
 ### Task Performance
 * `accuracy_S<subject ID>_C<condition>.csv`: the target objects counted correctly and incorrectly, accuracy, and user counts for each target object category.
@@ -107,17 +112,14 @@ The same information saved in the output files is also sent on LSL outlet stream
 | Outlet 5      | spt_total_score     | total_score     | 3             | Irregular       | int32       | Ch 1: Image ID <br> Ch 2: Image score <br> Ch 3: Total score        |
 | Inlet 1       | spt_task_trigger     | lock_unlock     | 1             | Irregular       | int32       | 0 (to unlock task) or 1 (to lock task)                             |
 
-
  
 ## Paper Source Files and Figures
 
 The `paper` folder contains the LaTeX source files for the paper. Paper figures are in `paper/figures` in .jpg or .pdf format. The file structure and flowchart diagrams are also provided in .drawio format.
 
 
- 
 ## Acknowledgement
 The authors wish to acknowledge the technical and financial support of the Automotive Research Center (ARC) in accordance with Cooperative Agreement W56HZV-19-2-0001 U.S. Army DEVCOM Ground Vehicle Systems Center (GVSC) Warren, MI.
-
 
 
 ## Citation
