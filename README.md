@@ -45,7 +45,9 @@ On all non-Windows platform and for some Windows/Python combination, a shared li
 
 `conda install -c conda-forge liblsl`
 
-* For MAC devices:  
+* For MAC devices:  Before installing lsl, please make sure to install homebrew if you don't have it.
+
+`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 
 `brew install labstreaminglayer/tap/lsl`
   
