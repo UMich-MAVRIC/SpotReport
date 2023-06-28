@@ -73,12 +73,14 @@ The spot report task follows these steps in `src/spotreport.py` by referencing t
 2. Ensure you have [Python](https://www.python.org/downloads/) installed and an IDE such as [Visual Studio code](https://code.visualstudio.com/) to run this codebase.
 3. To control lockout functionality or send other data to the spot report program through an LSL intlet stream, run `python trigger.py` from the `src/lsl_outlet` folder. This step is optional.
 4. In a separate terminal, run `python spotreport.py` from the `src` folder.
-5. Fill out the subject ID and condition textboxes on the menu.
-6. Click the Training button to start training.
-7. Click the Start button to start the experimental task.
-8. Press the 'L' key to lock and the 'O' key to unlock the spot report task as desired. If step 3 was completed, from that terminal, send a '1' to lock and a '0' to unlock the spot report task as desired. 
-9. Close the spot report task by pressing the Esc key or closing the window.
-10. Explore the output files in the `src/output_files` folder as desired. 
+   - `cd src` #to go to the `src` folder
+   - `python spotreport.py` #run main program
+6. Fill out the subject ID and condition textboxes on the menu.
+7. Click the Training button to start training.
+8. Click the Start button to start the experimental task.
+9. Press the 'L' key to lock and the 'O' key to unlock the spot report task as desired. If step 3 was completed, from that terminal, send a '1' to lock and a '0' to unlock the spot report task as desired. 
+10. Close the spot report task by pressing the Esc key or closing the window.
+11. Explore the output files in the `src/output_files` folder as desired. 
 
 ### Randomize Task Images Order (optional)
 To randomize the order of the task images in the spot report task, run  `python randomize_images.py` from the `src` folder. This will randomize the order of the task images and update the task answer key in the `src/answer_keys` folder. This is optional.
