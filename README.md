@@ -121,13 +121,13 @@ The authors wish to acknowledge the technical and financial support of the Autom
 ## Citation
 Please use the following citation:
 
-Ali, A., Banerjee, R., Jo, W., TBD, Robert Jr., L. P., & Tilbury, D. M. (2023). Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments. _Journal_, vol(no), x-x.
+Ali, A., Banerjee, R., Jo, W., Dubrow, S., Riegner, K., Smereka, J., Robert Jr., L. P., & Tilbury, D. M. (2023). Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments. _Journal_, vol(no), x-x.
 
 
 ```
 @article{spt_task_2023,
     title={Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments},
-    author={Arsha Ali and Rohit Banerjee and Wonse Jo and Samantha Dubrow and Kayla Riegner and Lionel P. Robert Jr. and Dawn M. Tibury},
+    author={Arsha Ali and Rohit Banerjee and Wonse Jo and Samantha Dubrow and Kayla Riegner and Jonathon Smereka and Lionel P. Robert Jr. and Dawn M. Tibury},
     journal={TBD},
     volume={},
     number={},
