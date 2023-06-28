@@ -111,7 +111,7 @@ The same information saved in the output files is also sent on LSL outlet stream
  
 ## Paper Source Files and Figures
 
-The `paper` folder contains the LaTeX source files for the paper. Paper figures are in `paper/figures` in .jpg or .pdf format. The file structure and flowchart diagrams are also provided in .drawio format.
+The `paper` folder contains the LaTeX source files for the paper. Paper figures are in `paper/figures` in .jpg or .pdf format.
 
 
 ## Acknowledgement
