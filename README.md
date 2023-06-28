@@ -135,7 +135,7 @@ Ali, A., Banerjee, R., Jo, W., TBD, Robert Jr., L. P., & Tilbury, D. M. (2023). 
 ```
 @article{spt_task_2023,
     title={Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments},
-    author={Arsha Ali and Rohit Banerjee and Wonse Jo and TBD and Lionel P. Robert Jr. and Dawn M. Tibury},
+    author={Arsha Ali and Rohit Banerjee and Wonse Jo and Samantha Dubrow and Kayla Riegner and Lionel P. Robert Jr. and Dawn M. Tibury},
     journal={TBD},
     volume={},
     number={},
