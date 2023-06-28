@@ -30,15 +30,7 @@ All implementations were tested with Python 3.9.7. The following packages are ne
 * pylsl
 
 The following Python built-in modules are needed. They should already be available with the Python distribution.
-* glob
-* csv
-* datetime
-* time
-* argparse
-* random
-* threading
-* asyncio
-* os
+* glob, csv, datetime, time, argparse, random, threading, asyncio, os
 
 On all non-Windows platform and for some Windows/Python combination, a shared liblsl is required. This can be done by either using:
 * For most Linux and Windows distributions: 
