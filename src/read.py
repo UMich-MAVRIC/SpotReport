@@ -46,7 +46,7 @@ def load_ans_files(args):
 
 # Function to get some input arguments from user to run the spot report task and place objects on the screen
 # The user should need to only change the default values here to no longer supply the args via the terminal
-# the placement of the score, object category labels, and menu objects are not included here, but can be changed in the corresponding files
+# the placement of the score, object category labels, and menu objects are not included here, but can be changed in display.py
 def input_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('--width', nargs='?', type=int, default=1368,
