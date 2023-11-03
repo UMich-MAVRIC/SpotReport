@@ -1,6 +1,6 @@
 # Spot Report Secondary Task
 
-![Alt text](paper/figures/readme_picture.png)
+![Alt text](paper/figures/exA.png)
 
 
 ## Overview
@@ -21,7 +21,7 @@ The following files are hosted in this repository.
 * paper source files and figures
 
 The file structure of the spot report program is depicted below. 
-![Alt text](paper/figures/file_structure.pdf)
+![Alt text](paper/figures/file_structure.png)
 
 The following files and folders are contained within the `src` folder.
 
