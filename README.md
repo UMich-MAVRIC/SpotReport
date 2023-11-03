@@ -20,6 +20,36 @@ The following files are hosted in this repository.
 * example csv output files
 * paper source files and figures
 
+The file structure of the spot report program is depicted below. 
+![Alt text](paper/figures/file_structure.pdf)
+
+The following files and folders are contained within the `src` folder.
+
+* `training_images`: The 5 training images to train users on the spot report task are stored in this folder, named incrementally from `01.png` to `05.png`.
+
+* `task_images`: The 165 task images for experimentation on the spot report task are stored in this folder, named incrementally from `001.png` to `165.png`.
+    
+* `answer_keys`: This folder contains the correct count of each object category for each training and task image in `training_ans_key.csv` and `task_ans_key.csv` respectively.
+
+* `spotreport.py`: This runs the spot report program by referencing the other files in the `src` folder.
+
+* `read.py`: The images and answer keys are read using this file. For user convenience, an array of optional input arguments can be used to modify the spot report task for a particular domain and move display objects to suit different device screens.
+
+* `display.py`: This file sets up and updates the display for the spot report task. This includes the buttons and labels used throughout the program, and a function to check whether a button is clicked.
+    
+* `score.py`: The score file specifies how each image is scored depending upon the counts entered by the user. It also outputs the accuracy, time spent on each task image, and total score.
+
+* `mouse.py`: The mouse file outputs the mouse cursor position and the status of a mouse button as pressed or released.
+
+* `lsl_streams.py`: This file initializes the LSL inlet stream to receive data from a primary task and outlet streams to publish data.
+
+* `lsl_outlet`: This folder contains `trigger.py` as an example of how to send data from a primary task via LSL.
+
+* `output_files`: This folder contains the output csv files that are saved by the spot report task during experimentation.
+    
+* `randomize_images.py`: This file is used to randomly rename the 165 task images, which will change the order in which the task images appear. This code is independent of the other files and is therefore not shown in the figure above.
+
+* `resource`: This folder contains `examples.png`, which is an image that is displayed on the spot report menu that provides examples of the target objects. This file has no effect on the functionality of the spot report task and is therefore not shown in the figure above.
 
 
 ## Software
