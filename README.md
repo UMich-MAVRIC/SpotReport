@@ -1,6 +1,6 @@
 # Spot Report Secondary Task
 
-![Alt text](paper/figures/exA.png)
+![Alt text](paper/figures/exA.jpg)
 
 
 ## Overview
