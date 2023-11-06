@@ -1,7 +1,6 @@
 # Spot Report Secondary Task
 
-![Alt text](paper/figures/spotreport_git.png)
-
+![Alt text](paper/figures/exA.jpg)
 
 
 ## Overview
@@ -10,7 +9,6 @@ This repository is for the spot report task. The spot report task is a Pygame-ba
 - Paper link: [Online version](https://doi.org/...) or [download PDF](https://doi.org/...)
 
 - Demo Video: [Watch on YouTube](https://youtu.be/mhUKsqkuMPQ) or [download mp4 video](paper/video/SpotReportVideo.mp4)
-
 
 
 ## Repository Files
@@ -22,6 +20,36 @@ The following files are hosted in this repository.
 * example csv output files
 * paper source files and figures
 
+The file structure of the spot report program is depicted below. 
+![Alt text](paper/figures/file_structure.png)
+
+The following files and folders are contained within the `src` folder.
+
+* `training_images`: The 5 training images to train users on the spot report task are stored in this folder, named incrementally from `01.png` to `05.png`.
+
+* `task_images`: The 165 task images for experimentation on the spot report task are stored in this folder, named incrementally from `001.png` to `165.png`.
+    
+* `answer_keys`: This folder contains the correct count of each object category for each training and task image in `training_ans_key.csv` and `task_ans_key.csv` respectively.
+
+* `spotreport.py`: This runs the spot report program by referencing the other files in the `src` folder.
+
+* `read.py`: The images and answer keys are read using this file. For user convenience, an array of optional input arguments can be used to modify the spot report task for a particular domain and move display objects to suit different device screens.
+
+* `display.py`: This file sets up and updates the display for the spot report task. This includes the buttons and labels used throughout the program, and a function to check whether a button is clicked.
+    
+* `score.py`: The score file specifies how each image is scored depending upon the counts entered by the user. It also outputs the accuracy, time spent on each task image, and total score.
+
+* `mouse.py`: The mouse file outputs the mouse cursor position and the status of a mouse button as pressed or released.
+
+* `lsl_streams.py`: This file initializes the LSL inlet stream to receive data from a primary task and outlet streams to publish data.
+
+* `lsl_outlet`: This folder contains `trigger.py` as an example of how to send data from a primary task via LSL.
+
+* `output_files`: This folder contains the output csv files that are saved by the spot report task during experimentation.
+    
+* `randomize_images.py`: This file is used to randomly rename the 165 task images, which will change the order in which the task images appear. This code is independent of the other files and is therefore not shown in the figure above.
+
+* `resource`: This folder contains `examples.png`, which is an image that is displayed on the spot report menu that provides examples of the target objects. This file has no effect on the functionality of the spot report task and is therefore not shown in the figure above.
 
 
 ## Software
@@ -31,19 +59,21 @@ All implementations were tested with Python 3.9.7. The following packages are ne
 * pandas 
 * pylsl
 
-On platforms other than Windows and for some Windows/Python combinations, a shared liblsl is required for the pylsl package. Please refer to the [pylsl GitHub repository](https://github.com/labstreaminglayer/pylsl) for more details.
-
 The following Python built-in modules are needed. They should already be available with the Python distribution.
-* glob
-* csv
-* datetime
-* time
-* argparse
-* random
-* threading
-* asyncio
-* os
+* glob, csv, datetime, time, argparse, random, threading, asyncio, os
+
+On all non-Windows platform and for some Windows/Python combination, a shared liblsl is required. This can be done by either using:
+* For most Linux and Windows distributions: 
+
+`conda install -c conda-forge liblsl`
+
+* For MAC devices:  Before installing lsl, please make sure to install homebrew if you don't have it.
+
+`/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+
+`brew install labstreaminglayer/tap/lsl`
   
+For additional information, please refer to the following [pylsl GitHub repository](https://github.com/labstreaminglayer/pylsl) for more details.
 
 
 ## Spot Report Task Implementation
@@ -65,12 +95,14 @@ The spot report task follows these steps in `src/spotreport.py` by referencing t
 2. Ensure you have [Python](https://www.python.org/downloads/) installed and an IDE such as [Visual Studio code](https://code.visualstudio.com/) to run this codebase.
 3. To control lockout functionality or send other data to the spot report program through an LSL intlet stream, run `python trigger.py` from the `src/lsl_outlet` folder. This step is optional.
 4. In a separate terminal, run `python spotreport.py` from the `src` folder.
-5. Fill out the subject ID and condition textboxes on the menu.
-6. Click the Training button to start training.
-7. Click the Start button to start the experimental task.
-8. Press the 'L' key to lock and the 'O' key to unlock the spot report task as desired. If step 3 was completed, from that terminal, send a '1' to lock and a '0' to unlock the spot report task as desired. 
-9. Close the spot report task by pressing the Esc key or closing the window.
-10. Explore the output files in the `src/output_files` folder as desired. 
+   - `cd src` #to go to the `src` folder
+   - `python spotreport.py` #run main program
+6. Fill out the subject ID and condition textboxes on the menu.
+7. Click the Training button to start training.
+8. Click the Start button to start the experimental task.
+9. Press the 'L' key to lock and the 'O' key to unlock the spot report task as desired. If step 3 was completed, from that terminal, send a '1' to lock and a '0' to unlock the spot report task as desired. 
+10. Close the spot report task by pressing the Esc key or closing the window.
+11. Explore the output files in the `src/output_files` folder as desired. 
 
 ### Randomize Task Images Order (optional)
 To randomize the order of the task images in the spot report task, run  `python randomize_images.py` from the `src` folder. This will randomize the order of the task images and update the task answer key in the `src/answer_keys` folder. This is optional.
@@ -78,17 +110,16 @@ To randomize the order of the task images in the spot report task, run  `python 
 ### Terminal Arguments (optional)
 Optional arguments are defined in `read.py` to enable easier adaptation of the spot report task for different screen sizes and to read different images and answer keys the user may have saved in other folders. Please note that the placement of the score, object category labels, and menu objects are not included as arguments and need to be adjusted directly in `display.py`. We used the default argument parameters in our implementation.
 
-To see a list of all arguments, run `python spotreport.py --help`. To supply one or more arguments, run `python spotreport.py --{arg_name} {arg_value}`. For example, if the user wants to change the width and height of the spot report task screen to 1000 and 500, run `python spotreport.py --width 1000 --height 500`. To modify the default arguments, please change the defulat value in `read.py` for the appropriate argument.
+To see a list of all arguments, run `python spotreport.py --help`. To supply one or more arguments, run `python spotreport.py --{arg_name} {arg_value}`. For example, if the user wants to change the width and height of the spot report task screen to 1000 and 500, run `python spotreport.py --width 1000 --height 500`. To modify the default arguments, please change the default value in `read.py` for the appropriate argument.
 
 
 
 ## Output Files
-There are 5 output files generated in csv format in the `src/output_files` folder, where \<subject ID\> is replaced by the text entered into the subject ID textbox and \<condition\> is replaced by the text enetered into the condition textbox. The output files are appended to when the mouse information changes or when the user advances to the next task image.
+There are 5 output files generated in csv format in the `src/output_files` folder, where \<subject ID\> is replaced by the text entered into the subject ID textbox and \<condition\> is replaced by the text entered into the condition textbox. The output files are appended to when the mouse information changes or when the user advances to the next task image.
 
 ### Mouse Information
 * `mouse_pos_S<subject ID>_C<condition>.csv`: the x and y mouse cursor position.
 * `mouse_button_S<subject ID>_C<Condition>.csv`: the state of the mouse button as either pressed or released.
-
 
 ### Task Performance
 * `accuracy_S<subject ID>_C<condition>.csv`: the target objects counted correctly and incorrectly, accuracy, and user counts for each target object category.
@@ -107,29 +138,26 @@ The same information saved in the output files is also sent on LSL outlet stream
 | Outlet 5      | spt_total_score     | total_score     | 3             | Irregular       | int32       | Ch 1: Image ID <br> Ch 2: Image score <br> Ch 3: Total score        |
 | Inlet 1       | spt_task_trigger     | lock_unlock     | 1             | Irregular       | int32       | 0 (to unlock task) or 1 (to lock task)                             |
 
-
  
 ## Paper Source Files and Figures
 
-The `paper` folder contains the LaTeX source files for the paper. Paper figures are in `paper/figures` in .jpg or .pdf format. The file structure and flowchart diagrams are also provided in .drawio format.
+The `paper` folder contains the LaTeX source files for the paper. Paper figures are in `paper/figures` in .jpg or .pdf format.
 
 
- 
 ## Acknowledgement
 The authors wish to acknowledge the technical and financial support of the Automotive Research Center (ARC) in accordance with Cooperative Agreement W56HZV-19-2-0001 U.S. Army DEVCOM Ground Vehicle Systems Center (GVSC) Warren, MI.
-
 
 
 ## Citation
 Please use the following citation:
 
-Ali, A., Banerjee, R., Jo, W., TBD, Robert Jr., L. P., & Tilbury, D. M. (2023). Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments. _Journal_, vol(no), x-x.
+Ali, A., Banerjee, R., Jo, W., Dubrow, S., Riegner, K., Smereka, J., Robert Jr., L. P., & Tilbury, D. M. (2023). Spot Report: An Open-Source and Real-Time Secondary Task For Human-Robot Interaction User Experiments. _Journal_, vol(no), x-x.
 
 
 ```
-@article{spt_task_2023,
-    title={Spot Report: Real-time Pygame Based Secondary Task For Use In Human-Robot Interaction User Experiments},
-    author={Arsha Ali and Rohit Banerjee and Wonse Jo and TBD and Lionel P. Robert Jr. and Dawn M. Tibury},
+@article{ali_spotreport_2023,
+    title={Spot Report: An Open-Source and Real-Time Secondary Task For Human-Robot Interaction User Experiments},
+    author={Arsha Ali and Rohit Banerjee and Wonse Jo and Samantha Dubrow and Kayla Riegner and Jonathon Smereka and Lionel P. Robert Jr. and Dawn M. Tibury},
     journal={TBD},
     volume={},
     number={},
