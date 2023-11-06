@@ -152,7 +152,7 @@ def read_lsl_inlet(): # process LSL inlet data
         # Process the sample data
         # Replace the following lines with your own data processing code if you want functionality besides lockout
         if int(sample[0]) == 0: # Unlock
-            key_event = pygame.event.Event(KEYDOWN, key=K_o) # convert event into event datatype of pygame
+            key_event = pygame.event.Event(KEYDOWN, key=K_u) # convert event into event datatype of pygame
             pygame.event.post(key_event) # add event to the end of the events on the queue     
             print("Data sample received: 0 to unlock")
 

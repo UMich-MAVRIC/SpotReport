@@ -285,7 +285,7 @@ def loop(args, screen, task_imgs, training_imgs, task_dict, training_dict, new_p
                     SR_task_running = False
                 if event.key == pygame.K_l: # if the 'L' key is pressed
                     lockout = True # spot report is locked 
-                if event.key == pygame.K_o: # if the 'O' key is pressed
+                if event.key == pygame.K_u: # if the 'U' key is pressed
                     lockout =  False # spot report is unlocked
             if event.type == pygame.MOUSEBUTTONUP: # when the pressed mouse button is released
                 new_press = True # the next mouse button press is a new press
