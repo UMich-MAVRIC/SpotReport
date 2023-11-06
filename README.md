@@ -1,6 +1,6 @@
 # Spot Report Secondary Task
 
-![Alt text](paper/figures/exA.jpg)
+![Example of a spot report image with counts filled in by the user](paper/figures/exA.jpg)
 
 
 ## Overview
@@ -21,7 +21,7 @@ The following files are hosted in this repository.
 * paper source files and figures
 
 The file structure of the spot report program is depicted below. 
-![Alt text](paper/figures/file_structure.png)
+![File strucutre of the spot report program](paper/figures/file_structure.png)
 
 The following files and folders are contained within the `src` folder.
 
@@ -84,7 +84,7 @@ The spot report task follows these steps in `src/spotreport.py` by referencing t
 3. The user clicks and types in the textboxes for the subject ID and condition.
 4. After the subject ID and condition textboxes have been filled in, the user can click the Training button. In training, the spot report task is setup and the user completes 5 training images and returns to the menu. Training must be completed at least once before the user can start the experimental task.
 5. After training and returning to the menu, the user can click the Start button. In the experimental task, the spot report task is setup and the user can cycle through 165 task images. If the 165th task image is reached, the task images will repeat from the beginning.
-6. During the experimental task, the spot report task can be locked by pressing the 'L' key or sending a '1' through the inlet stream and unlocked by pressing the 'O' key or sending a '0' through the inlet stream. When the spot report task is locked, a black screen is displayed to prevent the user from seeing and interacting with the spot report task.
+6. During the experimental task, the spot report task can be locked by pressing the 'L' key or sending a '1' through the inlet stream and unlocked by pressing the 'U' key or sending a '0' through the inlet stream. When the spot report task is locked, a black screen is displayed to prevent the user from seeing and interacting with the spot report task.
 7. The user can press the Esc key or close the spot report task window to close the program. Pressing the Esc key or closing the window during training will return the program to the menu.
 
 
@@ -100,7 +100,7 @@ The spot report task follows these steps in `src/spotreport.py` by referencing t
 6. Fill out the subject ID and condition textboxes on the menu.
 7. Click the Training button to start training.
 8. Click the Start button to start the experimental task.
-9. Press the 'L' key to lock and the 'O' key to unlock the spot report task as desired. If step 3 was completed, from that terminal, send a '1' to lock and a '0' to unlock the spot report task as desired. 
+9. Press the 'L' key to lock and the 'U' key to unlock the spot report task as desired. If step 3 was completed, from that terminal, send a '1' to lock and a '0' to unlock the spot report task as desired. 
 10. Close the spot report task by pressing the Esc key or closing the window.
 11. Explore the output files in the `src/output_files` folder as desired. 
 
