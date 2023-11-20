@@ -21,7 +21,7 @@ The following files are hosted in this repository.
 * paper source files and figures
 
 The file structure of the spot report program is depicted below. 
-![File strucutre of the spot report program](paper/figures/file_structure.png)
+![File strucutre of the spot report program](paper/figures/readme_file_structure.png)
 
 The following files and folders are contained within the `src` folder.
 
