@@ -151,20 +151,4 @@ The authors wish to acknowledge the technical and financial support of the Autom
 ## Citation
 Please use the following citation:
 
-Ali, A., Banerjee, R., Jo, W., Dubrow, S., Riegner, K., Smereka, J., Robert Jr., L. P., & Tilbury, D. M. (2023). Spot Report: An Open-Source and Real-Time Secondary Task For Human-Robot Interaction User Experiments. _Journal_, vol(no), x-x.
-
-
-```
-@article{ali_spotreport_2023,
-    title={Spot Report: An Open-Source and Real-Time Secondary Task For Human-Robot Interaction User Experiments},
-    author={Arsha Ali and Rohit Banerjee and Wonse Jo and Samantha Dubrow and Kayla Riegner and Jonathon Smereka and Lionel P. Robert Jr. and Dawn M. Tibury},
-    journal={TBD},
-    volume={},
-    number={},
-    pages={},
-    year={2023},
-    publisher={},
-    doi={}
-}
-```
 
