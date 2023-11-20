@@ -145,10 +145,10 @@ The `paper` folder contains the LaTeX source files for the paper. Paper figures 
 
 
 ## Acknowledgement
-The authors wish to acknowledge the technical and financial support of the Automotive Research Center (ARC) in accordance with Cooperative Agreement W56HZV-19-2-0001 U.S. Army DEVCOM Ground Vehicle Systems Center (GVSC) Warren, MI.
+Anonymous
 
 
 ## Citation
 Please use the following citation:
 
-
+Anonymous
