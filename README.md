@@ -145,10 +145,10 @@ The `paper` folder contains the LaTeX source files for the paper. Paper figures 
 
 
 ## Acknowledgement
-Anonymous
+The authors wish to acknowledge the technical and financial support of the Automotive Research Center (ARC) in accordance with Cooperative Agreement W56HZV-19-2-0001 U.S. Army DEVCOM Ground Vehicle Systems Center (GVSC) Warren, MI.
 
 
 ## Citation
 Please use the following citation:
 
-Anonymous
+Arsha Ali, Rohit Banerjee, Wonse Jo, Samantha Dubrow, Kayla Riegner, Jonathon M. Smereka, Lionel P. Robert Jr., and Dawn M. Tilbury. 2024. Spot Report: An Open-Source and Real-Time Secondary Task For Human-Robot Interaction User Experiments. In Companion of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (HRI ’24 Companion), March 11–14, 2024, Boulder, Colorado. ACM, New York, NY, USA, 5 pages.
