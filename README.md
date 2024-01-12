@@ -8,7 +8,7 @@ This repository is for the spot report task. The spot report task is a Pygame-ba
 
 - Paper link: [Online version](https://doi.org/...) or [download PDF](https://doi.org/...)
 
-- Demo Video: [Watch on YouTube](https://youtu.be/mhUKsqkuMPQ) or [download mp4 video](paper/video/SpotReportVideo.mp4)
+- Demo Video: [Watch on YouTube](https://youtu.be/QspkXDuoXUM) or [download mp4 video](paper/video/SpotReportVideo.mp4)
 
 
 ## Repository Files
