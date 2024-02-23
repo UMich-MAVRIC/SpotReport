@@ -151,4 +151,4 @@ The authors wish to acknowledge the technical and financial support of the Autom
 ## Citation
 Please use the following citation:
 
-Arsha Ali, Rohit Banerjee, Wonse Jo, Samantha Dubrow, Kayla Riegner, Jonathon M. Smereka, Lionel P. Robert Jr., and Dawn M. Tilbury. 2024. Spot Report: An Open-Source and Real-Time Secondary Task For Human-Robot Interaction User Experiments. In Companion of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (HRI ’24 Companion), March 11–14, 2024, Boulder, Colorado. ACM, New York, NY, USA, 5 pages.
+Arsha Ali, Rohit Banerjee, Wonse Jo, Samantha Dubrow, Kayla Riegner, Jonathon M. Smereka, Lionel P. Robert Jr., and Dawn M. Tilbury. 2024. Spot Report: An Open-Source and Real-Time Secondary Task for Human-Robot Interaction User Experiments. In Companion of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (HRI ’24 Companion), March 11–14, 2024, Boulder, Colorado. ACM, New York, NY, USA, 5 pages. DOI: https://doi.org/10.1145/3610978.3640718
