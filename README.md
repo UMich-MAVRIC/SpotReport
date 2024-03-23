@@ -27,7 +27,7 @@ The following files and folders are contained within the `src` folder.
 
 * `training_images`: The 5 training images to train users on the spot report task are stored in this folder, named incrementally from `01.png` to `05.png`.
 
-* `task_images`: The 165 task images for experimentation on the spot report task are stored in this folder, named incrementally from `001.png` to `165.png`.
+* `task_images`: The 514 task images for experimentation on the spot report task are stored in this folder, named incrementally from `001.png` to `514.png`.
     
 * `answer_keys`: This folder contains the correct count of each object category for each training and task image in `training_ans_key.csv` and `task_ans_key.csv` respectively.
 
@@ -47,7 +47,7 @@ The following files and folders are contained within the `src` folder.
 
 * `output_files`: This folder contains the output csv files that are saved by the spot report task during experimentation.
     
-* `randomize_images.py`: This file is used to randomly rename the 165 task images, which will change the order in which the task images appear. This code is independent of the other files and is therefore not shown in the figure above.
+* `randomize_images.py`: This file is used to randomly rename the 514 task images, which will change the order in which the task images appear. This code is independent of the other files and is therefore not shown in the figure above.
 
 * `resource`: This folder contains `examples.png`, which is an image that is displayed on the spot report menu that provides examples of the target objects. This file has no effect on the functionality of the spot report task and is therefore not shown in the figure above.
 
@@ -83,7 +83,7 @@ The spot report task follows these steps in `src/spotreport.py` by referencing t
 2. The menu is displayed.
 3. The user clicks and types in the textboxes for the subject ID and condition.
 4. After the subject ID and condition textboxes have been filled in, the user can click the Training button. In training, the spot report task is setup and the user completes 5 training images and returns to the menu. Training must be completed at least once before the user can start the experimental task.
-5. After training and returning to the menu, the user can click the Start button. In the experimental task, the spot report task is setup and the user can cycle through 165 task images. If the 165th task image is reached, the task images will repeat from the beginning.
+5. After training and returning to the menu, the user can click the Start button. In the experimental task, the spot report task is setup and the user can cycle through 514 task images. If the 514th task image is reached, the task images will repeat from the beginning.
 6. During the experimental task, the spot report task can be locked by pressing the 'L' key or sending a '1' through the inlet stream and unlocked by pressing the 'U' key or sending a '0' through the inlet stream. When the spot report task is locked, a black screen is displayed to prevent the user from seeing and interacting with the spot report task.
 7. The user can press the Esc key or close the spot report task window to close the program. Pressing the Esc key or closing the window during training will return the program to the menu.
 
@@ -146,6 +146,8 @@ The `paper` folder contains the LaTeX source files for the paper. Paper figures 
 
 ## Acknowledgement
 The authors wish to acknowledge the technical and financial support of the Automotive Research Center (ARC) in accordance with Cooperative Agreement W56HZV-19-2-0001 U.S. Army DEVCOM Ground Vehicle Systems Center (GVSC) Warren, MI.
+
+We would also like to thank Jasmine Li for creating 349 task images.
 
 
 ## Citation
