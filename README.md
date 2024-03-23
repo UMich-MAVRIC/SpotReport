@@ -6,7 +6,7 @@
 ## Overview
 This repository is for the spot report task. The spot report task is a Pygame-based implementation of a secondary task for use in human-robot interaction (HRI) experiments. The spot report task requires users to count target objects shown in static images. A key element of the spot report task implementation is the ability to integrate it with a primary task, such as one developed in Unreal Engine, using Lab Streaming Layer (LSL).
 
-- Paper link: [Online version](https://doi.org/...) or [download PDF](https://doi.org/...)
+- Paper link: [Online version](https://doi.org/10.1145/3610978.3640718) or [download PDF](https://deepblue.lib.umich.edu/bitstream/handle/2027.42/192466/HRI_LBR_2024_FINAL%20%281%29.pdf?sequence=1&isAllowed=y)
 
 - Demo Video: [Watch on YouTube](https://youtu.be/QspkXDuoXUM) or [download mp4 video](paper/video/SpotReportVideo.mp4)
 
@@ -151,4 +151,4 @@ The authors wish to acknowledge the technical and financial support of the Autom
 ## Citation
 Please use the following citation:
 
-Arsha Ali, Rohit Banerjee, Wonse Jo, Samantha Dubrow, Kayla Riegner, Jonathon M. Smereka, Lionel P. Robert Jr., and Dawn M. Tilbury. 2024. Spot Report: An Open-Source and Real-Time Secondary Task for Human-Robot Interaction User Experiments. In Companion of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (HRI ’24 Companion), March 11–14, 2024, Boulder, Colorado. ACM, New York, NY, USA, 5 pages. DOI: https://doi.org/10.1145/3610978.3640718
+Arsha Ali, Rohit Banerjee, Wonse Jo, Samantha Dubrow, Kayla Riegner, Jonathon M. Smereka, Lionel P. Robert Jr., and Dawn M. Tilbury. 2024. Spot Report: An Open-Source and Real-Time Secondary Task for Human-Robot Interaction User Experiments. In _Companion of the 2024 ACM/IEEE International Conference on Human-Robot Interaction (HRI ’24 Companion), March 11–14, 2024, Boulder, CO, USA_. ACM, New York, NY, USA, 5 pages. DOI: https://doi.org/10.1145/3610978.3640718
