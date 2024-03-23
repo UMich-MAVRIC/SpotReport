@@ -7,7 +7,7 @@ import pandas as pd
 #you need to manually perform some actions in the updated task_ans_key.csv afterwards. These steps are detailed at the end of this script.
 #do NOT run this script again before doing these steps to clean the .csv
 
-total_images = 165
+total_images = 514
 new_Image_ID = random.sample(range(1,total_images + 1), total_images) #randomized list of non-repeating 165 numbers from 1 to 165
 
 #read file name for each image and rename using "new_" + str(new_Image_ID[i])
