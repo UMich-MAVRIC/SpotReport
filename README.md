@@ -6,7 +6,7 @@
 ## Overview
 This repository is for the spot report task. The spot report task is a Pygame-based implementation of a secondary task for use in human-robot interaction (HRI) experiments. The spot report task requires users to count target objects shown in static images. A key element of the spot report task implementation is the ability to integrate it with a primary task, such as one developed in Unreal Engine, using Lab Streaming Layer (LSL).
 
-- Paper link: [Online version](https://doi.org/10.1145/3610978.3640718) or [download PDF](https://deepblue.lib.umich.edu/bitstream/handle/2027.42/192466/HRI_LBR_2024_FINAL%20%281%29.pdf?sequence=1&isAllowed=y)
+- Paper link: [Online version](https://doi.org/10.1145/3610978.3640718) or [download PDF](https://dl.acm.org/doi/pdf/10.1145/3610978.3640718)
 
 - Demo Video: [Watch on YouTube](https://youtu.be/QspkXDuoXUM) or [download mp4 video](paper/video/SpotReportVideo.mp4)
 
